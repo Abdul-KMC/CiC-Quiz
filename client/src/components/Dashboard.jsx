@@ -23,8 +23,8 @@ function Dashboard() {
           <img src={userImage} alt="User" className="userImage" />
           <h5 className="username">username</h5>
           <nav className="nav">
-            <a href="Dashboard.jsx">Dashboard</a>
-            <a href="Topics.jsx">Topics</a>
+            <button onClick={() => navigate('/dashboard')}>Dashboard</button>
+            <button onClick={() => navigate('/topics')}>Topics</button>
           </nav>
         </section>
         <section className="dashboard-content">

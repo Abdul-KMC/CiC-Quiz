@@ -13,6 +13,13 @@
     background-color: #014246;
 }
 
+.user-profile {
+    display: grid;
+    grid-gap: 10px;
+    height: 100vh;
+    background-color: #014246;
+}
+
 .mainPage {
     display: grid;
     grid-template-columns: 1fr 4fr;
@@ -32,11 +39,20 @@
     flex-direction: column;
 }
 
+.nav button {
+    margin: 10px;
+    height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #d1fce9;
+    background-color: #014246;
+}
+
 .dashboard-content {
-    display: grid;
+    display: flex;
     align-items: center;
-    justify-self: center;
-    gap: 24px
+    justify-content: space-between;
+    padding: 15rem;
 }
 
 .topics-content {
@@ -57,4 +73,32 @@
     background-color: #d1fce9;
     margin: 0 40px;
     border-radius: 10px;
+}
+
+.top {
+    display: flex;
+    align-items: center;
+    margin-top: 60px;
+    margin-bottom: 20px;
+}
+
+.top h2 {
+    flex: 1;
+    text-align: center;
+    color: #d1fce9;
+}
+
+.top button {
+    margin-left: 20px;
+}
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    padding: 40px;
+    background-color: #d1fce9;
+    border-radius: 20px;
 }
