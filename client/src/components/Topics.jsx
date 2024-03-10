@@ -32,11 +32,16 @@ function Topics(props) {
           <img src={userImage} alt="User" className="userImage" />
           <h5 className="username">username</h5>
           <nav className="nav">
-            <a href="Dashboard.jsx">Dashboard</a>
-            <a href="Topics.jsx">Topics</a>
+            <button onClick={() => navigate('/dashboard')}>Dashboard</button>
+            <button onClick={() => navigate('/topics')}>Topics</button>
           </nav>
         </section>
-        <section className="topics-content">
+        <section className="topics-section">
+          <section className="top">
+            <button className="back" onClick={() => navigate('/dashboard')}>back</button>
+            <h2 className="profile">Topics</h2>
+          </section>
+          <div className="topics-content">
           <section>
             <button className="modify" onClick={() => handleClickModify(props.topic.id)}>M</button>
             <button className="delete" onClick={() => handleClickDelete(props.topic.id)}>D</button>
@@ -65,6 +70,7 @@ function Topics(props) {
               <img src={sports} alt="Sports" />
             </button>
           </section>
+          </div>
         </section>
       </div>
       <Footer />
