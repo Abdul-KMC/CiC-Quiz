@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import '../styling/Dashboard.css';
@@ -7,6 +8,13 @@ import profileImage from '../images/profile.png';
 import quizImage from '../images/Quiz.png';
 
 function Dashboard() {
+  const navigate = useNavigate();
+  const handleClickProfile = () => {
+    navigate('/profile');
+  };
+  const handleClickTopics = () => {
+    navigate('/topics');
+  };
   return (
     <div className="dashboard">
       <Header />
@@ -20,12 +28,12 @@ function Dashboard() {
           </nav>
         </section>
         <section className="dashboard-content">
-          <a href="UserProfile.jsx">
+          <button className="dashboard-button" onClick={() => handleClickProfile()}>
             <img src={profileImage} alt="User Profile" />
-          </a>
-          <a href="Topics.jsx">
+          </button>
+          <button className="dashboard-button" onClick={() => handleClickTopics()}>
             <img src={quizImage} alt="Topics" />
-          </a>
+          </button>
         </section>
       </div>
       <Footer />

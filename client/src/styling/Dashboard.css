@@ -6,6 +6,13 @@
     background-color: #014246;
 }
 
+.topics {
+    display: grid;
+    grid-gap: 10px;
+    height: 100vh;
+    background-color: #014246;
+}
+
 .mainPage {
     display: grid;
     grid-template-columns: 1fr 4fr;
@@ -18,11 +25,6 @@
     background-color: #d1fce9;
     border-radius: 5px;
     margin-top: 50px;
-    transition: transform 0.3s ease;
-}
-
-.sidebar-open {
-    transform: translateX(0);
 }
 
 .nav {
@@ -34,11 +36,24 @@
     display: grid;
     align-items: center;
     justify-self: center;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 24px
 }
 
-.dashboard-content a {
+.topics-content {
+    display: grid;
+    align-items: center;
+    justify-self: center;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 24px
+}
+
+.dashboard-content button {
+    background-color: #d1fce9;
+    margin: 0 40px;
+    border-radius: 10px;
+}
+
+.topics-content button {
     background-color: #d1fce9;
     margin: 0 40px;
     border-radius: 10px;
