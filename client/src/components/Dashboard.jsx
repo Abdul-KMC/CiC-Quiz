@@ -9,12 +9,6 @@ import quizImage from '../images/Quiz.png';
 
 function Dashboard() {
   const navigate = useNavigate();
-  const handleClickProfile = () => {
-    navigate('/profile');
-  };
-  const handleClickTopics = () => {
-    navigate('/topics');
-  };
   return (
     <div className="dashboard">
       <Header />
@@ -28,10 +22,10 @@ function Dashboard() {
           </nav>
         </section>
         <section className="dashboard-content">
-          <button className="dashboard-button" onClick={() => handleClickProfile()}>
+          <button className="dashboard-button" onClick={() => navigate('/profile')}>
             <img src={profileImage} alt="User Profile" />
           </button>
-          <button className="dashboard-button" onClick={() => handleClickTopics()}>
+          <button className="dashboard-button" onClick={() => navigate('/topics')}>
             <img src={quizImage} alt="Topics" />
           </button>
         </section>
