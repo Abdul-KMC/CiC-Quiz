@@ -21,7 +21,7 @@ function Quiz(props) {
         </section>
         <section className="quiz-content">
           <section className="top">
-            <button className="back" onClick={() => navigate('/dashboard')}>back</button>
+            <button className="back" onClick={() => navigate('/topics')}>back</button>
             <h2 className="title">Quiz Name</h2>
             <p className="score">Highest: 0</p>
           </section>

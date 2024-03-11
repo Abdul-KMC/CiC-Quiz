@@ -44,3 +44,31 @@
 .navbuttons button {
     width: 80px;
 }
+
+.modify {
+    display: flex;
+}
+
+.modify p {
+    flex: 10;
+}
+
+.modify button {
+    flex: 1;
+    margin: 0 5px;
+    height: 30px;
+    width: fit-content;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #d1fce9;
+    background-color: #014246;
+}
+
+.add {
+    height: 30px;
+    width: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #d1fce9;
+    background-color: #014246;
+}
