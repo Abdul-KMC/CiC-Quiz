@@ -1,29 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import Header from './Header';
 import Footer from './Footer';
 import '../styling/Dashboard.css';
 import userImage from '../images/user.png';
-import computer from '../images/computer.png';
-import mathematics from '../images/mathematics.jpg';
-import science from '../images/science.png';
-import sports from '../images/sports.png'
 
-function Topics(props) {
+function Topics({ quizData }) {
   const navigate = useNavigate();
+
   const handleClickModify = (id) => {
     navigate(`/modify/${id}`);
   };
+
   const handleClickDelete = (id) => {
-    axios.delete(`http://localhost:5173/api/topics/${id}`)
-      .then(response => {
-      })
-      .catch(error => console.error('Error removing product:', error));
+    // Add your delete logic here
   };
+
   const handleClickTopic = (id) => {
     navigate(`/quiz/${id}`);
   };
+
   return (
     <div className="topics">
       <Header />
@@ -42,40 +38,21 @@ function Topics(props) {
             <h2 className="profile">Topics</h2>
           </section>
           <div className="topics-content">
-          <section>
-            <button className="modify" onClick={() => handleClickModify(props.topic.id)}>M</button>
-            <button className="delete" onClick={() => handleClickDelete(props.topic.id)}>D</button>
-            <button className="topic-button" onClick={() => handleClickTopic(props.topic.id)}>
-              <img src={computer} alt="Computer" />
-            </button>
-          </section>
-          <section>
-            <button className="modify">M</button>
-            <button className="delete">D</button>
-            <button className="topic-button" onClick={() => handleClickTopic()}>
-              <img src={mathematics} alt="Mathematics" />
-            </button>
-          </section>
-          <section>
-            <button className="modify">M</button>
-            <button className="delete">D</button>
-            <button className="topic-button" onClick={() => handleClickTopic()}>
-              <img src={science} alt="Science" />
-            </button>
-          </section>
-          <section>
-            <button className="modify">M</button>
-            <button className="delete">D</button>
-            <button className="topic-button" onClick={() => handleClickTopic()}>
-              <img src={sports} alt="Sports" />
-            </button>
-          </section>
+            {quizData.map((topic, index) => (
+              <section key={index}>
+                <button className="modify" onClick={() => handleClickModify(index)}>M</button>
+                <button className="delete" onClick={() => handleClickDelete(index)}>D</button>
+                <button className="topic-button" onClick={() => handleClickTopic(index)}>
+                  <img src={`path/to/${topic.name}.png`} alt={topic.name} />
+                </button>
+              </section>
+            ))}
           </div>
         </section>
       </div>
       <Footer />
     </div>
-  )
+  );
 }
 
-export default Topics
+export default Topics;
