@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
-import '../styling/Dashboard.css';
+import '../style/Dashboard.css';
 import userImage from '../images/user.png';
 import profileImage from '../images/profile.png';
 import quizImage from '../images/Quiz.png';
