@@ -22,6 +22,13 @@ function Modify({ quizData }) {
     localStorage.setItem('quizData', JSON.stringify(currentQuiz));
   };
 
+  const handleCorrectAnswerChange = (questionIndex, updatedCorrectAnswer) => {
+    const updatedQuiz = { ...currentQuiz };
+    updatedQuiz.questions[questionIndex].correct_answer = updatedCorrectAnswer;
+    setCurrentQuiz(updatedQuiz);
+    localStorage.setItem('quizData', JSON.stringify(currentQuiz));
+  };
+
   const handleOptionChange = (questionIndex, optionIndex, updatedOption) => {
     const updatedQuiz = { ...currentQuiz };
     updatedQuiz.questions[questionIndex].options[optionIndex] = updatedOption;
@@ -90,6 +97,12 @@ function Modify({ quizData }) {
                           onChange={(e) => handleQuestionChange(questionIndex, e.target.value)}
                         />
                       </p>
+                      <input
+                        type="text"
+                        value={question.correct_answer}
+                        placeholder="Correct Answer"
+                        onChange={(e) => handleCorrectAnswerChange(questionIndex, e.target.value)}
+                      />
                       <button className="delete" onClick={() => handleDeleteQuestion(questionIndex)}>D</button>
                     </section>
                     <section className="options">
