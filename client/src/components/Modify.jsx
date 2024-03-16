@@ -5,7 +5,7 @@ import Footer from './Footer';
 import '../style/Quiz.css';
 import userImage from '../images/user.png';
 
-function Modify({ quizData }) {
+function Modify({ quizData, updateQuizData }) {
   const navigate = useNavigate();
   const { id } = useParams();
   const [currentQuiz, setCurrentQuiz] = useState(null);
@@ -19,21 +19,28 @@ function Modify({ quizData }) {
     const updatedQuiz = { ...currentQuiz };
     updatedQuiz.questions[index].question = updatedQuestion;
     setCurrentQuiz(updatedQuiz);
-    localStorage.setItem('quizData', JSON.stringify(currentQuiz));
+    updateLocalStorage(updatedQuiz);
+  };
+
+  const handleCorrectAnswerChange = (questionIndex, updatedCorrectAnswer) => {
+    const updatedQuiz = { ...currentQuiz };
+    updatedQuiz.questions[questionIndex].correct_answer = updatedCorrectAnswer;
+    setCurrentQuiz(updatedQuiz);
+    updateLocalStorage(updatedQuiz);
   };
 
   const handleOptionChange = (questionIndex, optionIndex, updatedOption) => {
     const updatedQuiz = { ...currentQuiz };
     updatedQuiz.questions[questionIndex].options[optionIndex] = updatedOption;
     setCurrentQuiz(updatedQuiz);
-    localStorage.setItem('quizData', JSON.stringify(currentQuiz));
+    updateLocalStorage(updatedQuiz);
   };
 
   const handleDeleteQuestion = (index) => {
     const updatedQuiz = { ...currentQuiz };
     updatedQuiz.questions.splice(index, 1);
     setCurrentQuiz(updatedQuiz);
-    localStorage.setItem('quizData', JSON.stringify(currentQuiz));
+    updateLocalStorage(updatedQuiz);
   };
 
   const handleAddQuestion = () => {
@@ -45,19 +52,27 @@ function Modify({ quizData }) {
       points: 5,
     });
     setCurrentQuiz(updatedQuiz);
-    localStorage.setItem('quizData', JSON.stringify(currentQuiz));
+    updateLocalStorage(updatedQuiz);
   };
 
   const handleTopicNameChange = (updatedName) => {
     const updatedQuiz = { ...currentQuiz };
     updatedQuiz.name = updatedName;
     setCurrentQuiz(updatedQuiz);
-    localStorage.setItem('quizData', JSON.stringify(currentQuiz));
+    updateLocalStorage(updatedQuiz);
   };
 
   const handleUpdateQuiz = () => {
     // logic for PUT request here to update data in DB
     console.log('Updated Quiz Data:', currentQuiz);
+  };
+
+  const updateLocalStorage = (updatedQuiz) => {
+    const updatedQuizData = quizData.map((item, index) =>
+      index == id ? updatedQuiz : item
+    );
+    updateQuizData(updatedQuizData);
+    localStorage.setItem('quizData', JSON.stringify(updatedQuizData));
   };
 
   return (
@@ -87,9 +102,16 @@ function Modify({ quizData }) {
                       <p className="ques">
                         <textarea
                           value={question.question}
+                          placeholder="question"
                           onChange={(e) => handleQuestionChange(questionIndex, e.target.value)}
                         />
                       </p>
+                      <input
+                        type="text"
+                        value={question.correct_answer}
+                        placeholder="Correct Answer"
+                        onChange={(e) => handleCorrectAnswerChange(questionIndex, e.target.value)}
+                      />
                       <button className="delete" onClick={() => handleDeleteQuestion(questionIndex)}>D</button>
                     </section>
                     <section className="options">

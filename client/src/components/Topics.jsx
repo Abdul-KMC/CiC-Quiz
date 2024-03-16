@@ -28,7 +28,7 @@ function Topics({ quizData, updateQuizData }) {
     const newTopic = {
       name: '',
       questions: [{
-        question: "new question",
+        question: "",
         options: ["", "", "", ""],
         correct_answer: "",
         points: 5
@@ -89,7 +89,7 @@ function Topics({ quizData, updateQuizData }) {
                 <button className="modify" onClick={() => handleClickModify(index)}>M</button>
                 <button className="delete" onClick={() => handleClickDelete(index)}>D</button>
                 <button className="topic-button" onClick={() => handleClickTopic(index)}>
-                  <img src={`path/to/${topic.name}.png`} alt={topic.name} />
+                  {topic.name}
                 </button>
               </section>
             ))}
