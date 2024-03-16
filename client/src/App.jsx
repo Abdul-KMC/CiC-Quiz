@@ -17,6 +17,11 @@ const App = () => {
     setQuizData(dataFromLocalStorage);
   }, []);
 
+  const updateQuizData = (updatedData) => {
+    setQuizData(updatedData);
+    localStorage.setItem('quizData', JSON.stringify(updatedData));
+  };
+
   return (
     <Router>
       <div>
@@ -24,9 +29,9 @@ const App = () => {
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<UserProfile />} />
-          <Route path="/topics" element={<Topics quizData={quizData} />} />
+          <Route path="/topics" element={<Topics quizData={quizData} updateQuizData={updateQuizData} />} />
           <Route path="/quiz/:id" element={<Quiz quizData={quizData} />} />
-          <Route path="/modify/:id" element={<Modify quizData={quizData} />} />
+          <Route path="/modify/:id" element={<Modify quizData={quizData} updateQuizData={updateQuizData} />} />
         </Routes>
       </div>
     </Router>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
-import '../styling/Quiz.css';
+import '../style/Quiz.css';
 import userImage from '../images/user.png';
 
 function Modify({ quizData }) {
@@ -19,18 +19,21 @@ function Modify({ quizData }) {
     const updatedQuiz = { ...currentQuiz };
     updatedQuiz.questions[index].question = updatedQuestion;
     setCurrentQuiz(updatedQuiz);
+    localStorage.setItem('quizData', JSON.stringify(currentQuiz));
   };
 
   const handleOptionChange = (questionIndex, optionIndex, updatedOption) => {
     const updatedQuiz = { ...currentQuiz };
     updatedQuiz.questions[questionIndex].options[optionIndex] = updatedOption;
     setCurrentQuiz(updatedQuiz);
+    localStorage.setItem('quizData', JSON.stringify(currentQuiz));
   };
 
   const handleDeleteQuestion = (index) => {
     const updatedQuiz = { ...currentQuiz };
     updatedQuiz.questions.splice(index, 1);
     setCurrentQuiz(updatedQuiz);
+    localStorage.setItem('quizData', JSON.stringify(currentQuiz));
   };
 
   const handleAddQuestion = () => {
@@ -42,15 +45,18 @@ function Modify({ quizData }) {
       points: 5,
     });
     setCurrentQuiz(updatedQuiz);
+    localStorage.setItem('quizData', JSON.stringify(currentQuiz));
   };
 
   const handleTopicNameChange = (updatedName) => {
     const updatedQuiz = { ...currentQuiz };
     updatedQuiz.name = updatedName;
     setCurrentQuiz(updatedQuiz);
+    localStorage.setItem('quizData', JSON.stringify(currentQuiz));
   };
 
   const handleUpdateQuiz = () => {
+    // logic for PUT request here to update data in DB
     console.log('Updated Quiz Data:', currentQuiz);
   };
 

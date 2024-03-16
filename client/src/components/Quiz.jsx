@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
-import '../styling/Quiz.css';
+import '../style/Quiz.css';
 import userImage from '../images/user.png';
 
 function Quiz({ quizData }) {
@@ -33,6 +33,10 @@ function Quiz({ quizData }) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setShowCorrectAnswer(false);
     }
+  };
+
+  const handleConfirmClick = () => {
+    setShowCorrectAnswer(true);
   };
 
   const handleAnswerClick = () => {
@@ -77,9 +81,9 @@ function Quiz({ quizData }) {
                     <button className="prev" onClick={handlePrevClick} disabled={currentQuestionIndex === 0}>prev</button>
                     <button className="next" onClick={handleNextClick} disabled={currentQuestionIndex === currentQuiz.questions.length - 1}>next</button>
                   </section>
-                  <button className="confirm" onClick={handleAnswerClick}>confirm</button>
+                  <button className="confirm" onClick={handleConfirmClick}>confirm</button>
                   <button className="playagain" onClick={handlePlayAgainClick}>play again</button>
-                  <button className="answer">
+                  <button className="answer" onClick={handleAnswerClick}>
                     {showCorrectAnswer
                       ? `Answer: ${currentQuiz.questions[currentQuestionIndex].correct_answer}`
                       : 'answer'}

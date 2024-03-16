@@ -1,11 +1,12 @@
+// Topics.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
-import '../styling/Dashboard.css';
+import '../style/Dashboard.css';
 import userImage from '../images/user.png';
 
-function Topics({ quizData }) {
+function Topics({ quizData, updateQuizData }) {
   const navigate = useNavigate();
 
   const handleClickModify = (id) => {
@@ -13,11 +14,56 @@ function Topics({ quizData }) {
   };
 
   const handleClickDelete = (id) => {
-    // Add your delete logic here
+    const updatedQuizData = quizData.filter((topic, index) => index !== id);
+    updateQuizData(updatedQuizData);
+    navigate('/topics');
   };
 
   const handleClickTopic = (id) => {
     navigate(`/quiz/${id}`);
+  };
+
+  const handleAddTopic = () => {
+    const newId = quizData.length > 0 ? quizData[quizData.length - 1].id + 1 : 1;
+    const newTopic = {
+      name: '',
+      questions: [{
+        question: "new question",
+        options: ["", "", "", ""],
+        correct_answer: "",
+        points: 5
+      }],
+      highest_score: 0,
+    };
+    const updatedQuizData = [...quizData, newTopic];
+    updateQuizData(updatedQuizData);
+    navigate(`/topics`);
+  };
+
+  const handleModifyTopics = () => {
+    updateBackend(quizData);
+  };
+
+  const updateBackend = (data) => {
+    // Make a PUT request to update the backend
+    // fetch('http://localhost:3000/quizData', {
+    //   method: 'PUT',
+    //   body: JSON.stringify(data),
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    // })
+    //   .then((response) => {
+    //     if (!response.ok) {
+    //       throw new Error('Failed to update data');
+    //     }
+    //     // If successful, update local storage with the new data
+    //     localStorage.setItem('quizData', JSON.stringify(data));
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error updating data:', error);
+    //   });
+    console.log("Quiz backend updated successful");
   };
 
   return (
@@ -48,6 +94,8 @@ function Topics({ quizData }) {
               </section>
             ))}
           </div>
+          <button className="addtopic" onClick={handleAddTopic}>+</button>
+          <button className="modifytopics" onClick={handleModifyTopics}>Modify Topics</button>
         </section>
       </div>
       <Footer />
