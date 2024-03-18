@@ -14,7 +14,7 @@ const setQuizDataToLocalStorage = () => {
                     "points": 5
                 }
             ],
-            "highest_score": 10
+            "highest_score": 0
         },
 
         {
@@ -32,7 +32,7 @@ const setQuizDataToLocalStorage = () => {
                     "points": 5
                 }
             ],
-            "highest_score": 10
+            "highest_score": 0
         },
 
         {
@@ -50,7 +50,7 @@ const setQuizDataToLocalStorage = () => {
                     "points": 5
                 }
             ],
-            "highest_score": 10
+            "highest_score": 0
         },
 
         {
@@ -68,7 +68,7 @@ const setQuizDataToLocalStorage = () => {
                     "points": 5
                 }
             ],
-            "highest_score": 10
+            "highest_score": 0
         }
     ];
 

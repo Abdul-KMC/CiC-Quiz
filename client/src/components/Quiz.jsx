@@ -36,7 +36,29 @@ function Quiz({ quizData }) {
   };
 
   const handleConfirmClick = () => {
-    setShowCorrectAnswer(true);
+    let score = 0;
+    currentQuiz.questions.forEach((question, index) => {
+      if (selectedAnswer === question.correct_answer) {
+        score += question.points;
+      }
+    });
+
+    if (score > currentQuiz.highest_score) {
+      const updatedQuiz = { ...currentQuiz, highest_score: score };
+      setCurrentQuiz(updatedQuiz);
+      updateLocalStorage(updatedQuiz);
+    } else {
+      // Show an alert if the score is less than the highest score
+      alert('Score is less than highest score.');
+    }
+  };
+  
+  const updateLocalStorage = (updatedQuiz) => {
+    const updatedQuizData = quizData.map((item, index) =>
+      index == id ? updatedQuiz : item
+    );
+    updateQuizData(updatedQuizData);
+    localStorage.setItem('quizData', JSON.stringify(updatedQuizData));
   };
 
   const handleAnswerClick = () => {
