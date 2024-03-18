@@ -10,14 +10,14 @@ function Quiz({ quizData }) {
   const { id } = useParams();
   const [currentQuiz, setCurrentQuiz] = useState(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState('');
+  const [selectedAnswers, setSelectedAnswers] = useState(Array(currentQuiz?.questions.length).fill(''));
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
 
   useEffect(() => {
     const foundQuiz = quizData[id];
     setCurrentQuiz(foundQuiz);
     setCurrentQuestionIndex(0);
-    setSelectedAnswer('');
+    setSelectedAnswers(Array(foundQuiz?.questions.length).fill(''));
     setShowCorrectAnswer(false);
   }, [quizData, id]);
 
@@ -36,15 +36,31 @@ function Quiz({ quizData }) {
   };
 
   const handleConfirmClick = () => {
-    setShowCorrectAnswer(true);
+    let score = 0;
+    currentQuiz.questions.forEach((question, index) => {
+      if (selectedAnswers[index] === question.correct_answer) {
+        score += question.points;
+      }
+    });
+
+    if (score > currentQuiz.highest_score) {
+      const updatedQuiz = { ...currentQuiz, highest_score: score };
+      setCurrentQuiz(updatedQuiz);
+      updateLocalStorage(updatedQuiz);
+    } else {
+      alert('Score is less than highest score.');
+    }
   };
 
-  const handleAnswerClick = () => {
+  const handleAnswerClick = (option) => {
+    const updatedAnswers = [...selectedAnswers];
+    updatedAnswers[currentQuestionIndex] = option;
+    setSelectedAnswers(updatedAnswers);
     setShowCorrectAnswer(true);
   };
 
   const handlePlayAgainClick = () => {
-    setSelectedAnswer('');
+    setSelectedAnswers(Array(currentQuiz.questions.length).fill(''));
     setShowCorrectAnswer(false);
   };
 
@@ -73,7 +89,15 @@ function Quiz({ quizData }) {
                   <p className="ques">{currentQuiz.questions[currentQuestionIndex].question}</p>
                   {currentQuiz.questions[currentQuestionIndex].options.map((option, index) => (
                     <label key={index}>
-                      <input type="radio" name="ques" value={option} checked={selectedAnswer === option} onChange={() => setSelectedAnswer(option)}/>{option}</label>
+                      <input
+                        type="radio"
+                        name={`ques${currentQuestionIndex}`}
+                        value={option}
+                        checked={selectedAnswers[currentQuestionIndex] === option}
+                        onChange={() => handleAnswerClick(option)}
+                      />
+                      {option}
+                    </label>
                   ))}
                 </section>
                 <section className="buttons">
@@ -83,7 +107,7 @@ function Quiz({ quizData }) {
                   </section>
                   <button className="confirm" onClick={handleConfirmClick}>confirm</button>
                   <button className="playagain" onClick={handlePlayAgainClick}>play again</button>
-                  <button className="answer" onClick={handleAnswerClick}>
+                  <button className="answer" onClick={() => setShowCorrectAnswer(true)}>
                     {showCorrectAnswer
                       ? `Answer: ${currentQuiz.questions[currentQuestionIndex].correct_answer}`
                       : 'answer'}
