@@ -1,7 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { useEffect, useState } from 'react';
-import Login from './components/Login'
-import Dashboard from './components/Dashboard'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setQuizData } from './reducers/quizReducer';
+import Login from './components/Login';
+import Dashboard from './components/Dashboard';
 import UserProfile from './components/UserProfile';
 import Topics from './components/Topics';
 import Quiz from './components/Quiz';
@@ -9,18 +11,13 @@ import Modify from './components/Modify';
 import setQuizDataToLocalStorage from '../data/localStorage';
 
 const App = () => {
-  const [quizData, setQuizData] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setQuizDataToLocalStorage();
     const dataFromLocalStorage = JSON.parse(localStorage.getItem('quizData')) || [];
-    setQuizData(dataFromLocalStorage);
-  }, []);
-
-  const updateQuizData = (updatedData) => {
-    setQuizData(updatedData);
-    localStorage.setItem('quizData', JSON.stringify(updatedData));
-  };
+    dispatch(setQuizData(dataFromLocalStorage));
+  }, [dispatch]);
 
   return (
     <Router>
@@ -29,9 +26,9 @@ const App = () => {
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<UserProfile />} />
-          <Route path="/topics" element={<Topics quizData={quizData} updateQuizData={updateQuizData} />} />
-          <Route path="/quiz/:id" element={<Quiz quizData={quizData} />} />
-          <Route path="/modify/:id" element={<Modify quizData={quizData} updateQuizData={updateQuizData} />} />
+          <Route path="/topics" element={<Topics />} />
+          <Route path="/quiz/:id" element={<Quiz />} />
+          <Route path="/modify/:id" element={<Modify />} />
         </Routes>
       </div>
     </Router>
