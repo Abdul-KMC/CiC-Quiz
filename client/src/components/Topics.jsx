@@ -1,30 +1,31 @@
-// Topics.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateQuiz, deleteQuiz } from '../reducers/quizReducer';
 import Header from './Header';
 import Footer from './Footer';
 import '../style/Dashboard.css';
 import userImage from '../images/user.png';
 
-function Topics({ quizData, updateQuizData }) {
+function Topics() {
   const navigate = useNavigate();
+  const quizData = useSelector(state => state.quiz.quizData);
+  const dispatch = useDispatch();
 
   const handleClickModify = (id) => {
     navigate(`/modify/${id}`);
   };
 
   const handleClickDelete = (id) => {
-    const updatedQuizData = quizData.filter((topic, index) => index !== id);
-    updateQuizData(updatedQuizData);
+    dispatch(deleteQuiz(id));
     navigate('/topics');
-  };
+  };  
 
   const handleClickTopic = (id) => {
     navigate(`/quiz/${id}`);
   };
 
   const handleAddTopic = () => {
-    const newId = quizData.length > 0 ? quizData[quizData.length - 1].id + 1 : 1;
     const newTopic = {
       name: '',
       questions: [{
@@ -35,10 +36,9 @@ function Topics({ quizData, updateQuizData }) {
       }],
       highest_score: 0,
     };
-    const updatedQuizData = [...quizData, newTopic];
-    updateQuizData(updatedQuizData);
+    dispatch(updateQuiz([...quizData, newTopic]));
     navigate(`/topics`);
-  };
+  };  
 
   const handleModifyTopics = () => {
     updateBackend(quizData);

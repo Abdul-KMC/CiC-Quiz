@@ -1,24 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateQuiz } from '../reducers/quizReducer';
 import Header from './Header';
 import Footer from './Footer';
 import '../style/Quiz.css';
 import userImage from '../images/user.png';
 
-function Quiz({ quizData }) {
+function Quiz() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const quizData = useSelector(state => state.quiz.quizData);
+  const dispatch = useDispatch();
   const [currentQuiz, setCurrentQuiz] = useState(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswers, setSelectedAnswers] = useState(Array(currentQuiz?.questions.length).fill(''));
+  const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
 
   useEffect(() => {
-    const foundQuiz = quizData[id];
-    setCurrentQuiz(foundQuiz);
-    setCurrentQuestionIndex(0);
-    setSelectedAnswers(Array(foundQuiz?.questions.length).fill(''));
-    setShowCorrectAnswer(false);
+    if (quizData.length > 0) {
+      setCurrentQuiz(quizData[id]);
+      setSelectedAnswers(Array(quizData[id]?.questions.length).fill(''));
+    }
   }, [quizData, id]);
 
   const handlePrevClick = () => {
@@ -37,26 +40,33 @@ function Quiz({ quizData }) {
 
   const handleConfirmClick = () => {
     let score = 0;
-    currentQuiz.questions.forEach((question, index) => {
-      if (selectedAnswers[index] === question.correct_answer) {
-        score += question.points;
+    const updatedQuizData = quizData.map((quiz, index) => {
+      if (index.toString() === id) {
+        quiz.questions.forEach((question, index) => {
+          if (selectedAnswers[index] === question.correct_answer) {
+            score += question.points;
+          }
+        });
+  
+        if (score > quiz.highest_score) {
+          return { ...quiz, highest_score: score };
+        } else {
+          alert('Score is less than highest score.');
+          return quiz;
+        }
+      } else {
+        return quiz;
       }
     });
-
-    if (score > currentQuiz.highest_score) {
-      const updatedQuiz = { ...currentQuiz, highest_score: score };
-      setCurrentQuiz(updatedQuiz);
-      updateLocalStorage(updatedQuiz);
-    } else {
-      alert('Score is less than highest score.');
-    }
-  };
+  
+    dispatch(updateQuiz({ id, updatedQuiz: updatedQuizData }));
+    localStorage.setItem('quizData', JSON.stringify(updatedQuizData));
+  };  
 
   const handleAnswerClick = (option) => {
     const updatedAnswers = [...selectedAnswers];
     updatedAnswers[currentQuestionIndex] = option;
     setSelectedAnswers(updatedAnswers);
-    setShowCorrectAnswer(true);
   };
 
   const handlePlayAgainClick = () => {
