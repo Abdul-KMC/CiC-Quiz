@@ -26,7 +26,6 @@ function Modify() {
     updatedQuiz.questions[index].question = updatedQuestion;
     setCurrentQuiz(updatedQuiz);
     updateLocalStorage(updatedQuiz);
-    dispatch(updateQuiz({ id, updatedQuiz: quizData }));
   };
 
   const handleCorrectAnswerChange = (questionIndex, updatedCorrectAnswer) => {
@@ -34,7 +33,6 @@ function Modify() {
     updatedQuiz.questions[questionIndex].correct_answer = updatedCorrectAnswer;
     setCurrentQuiz(updatedQuiz);
     updateLocalStorage(updatedQuiz);
-    dispatch(updateQuiz({ id, updatedQuiz: quizData }));
   };
 
   const handleOptionChange = (questionIndex, optionIndex, updatedOption) => {
@@ -42,7 +40,6 @@ function Modify() {
     updatedQuiz.questions[questionIndex].options[optionIndex] = updatedOption;
     setCurrentQuiz(updatedQuiz);
     updateLocalStorage(updatedQuiz);
-    dispatch(updateQuiz({ id, updatedQuiz: quizData }));
   };
 
   const handleDeleteQuestion = (index) => {
@@ -50,7 +47,6 @@ function Modify() {
     updatedQuiz.questions.splice(index, 1);
     setCurrentQuiz(updatedQuiz);
     updateLocalStorage(updatedQuiz);
-    dispatch(updateQuiz({ id, updatedQuiz: quizData }));
   };
 
   const handleAddQuestion = () => {
@@ -63,7 +59,6 @@ function Modify() {
     });
     setCurrentQuiz(updatedQuiz);
     updateLocalStorage(updatedQuiz);
-    dispatch(updateQuiz({ id, updatedQuiz: quizData }));
   };
 
   const handleTopicNameChange = (updatedName) => {
@@ -71,7 +66,6 @@ function Modify() {
     updatedQuiz.name = updatedName;
     setCurrentQuiz(updatedQuiz);
     updateLocalStorage(updatedQuiz);
-    dispatch(updateQuiz({ id, updatedQuiz: quizData }));
   };
 
   const handleUpdateQuiz = () => {
@@ -84,7 +78,7 @@ function Modify() {
     const updatedQuizData = quizData.map((item, index) =>
       index == id ? updatedQuiz : item
     );
-    updateQuizData(updatedQuizData);
+    dispatch(updateQuiz({ id, updatedQuiz: updatedQuizData }));
     localStorage.setItem('quizData', JSON.stringify(updatedQuizData));
   };
 
