@@ -2,7 +2,7 @@ POST http://localhost:3000/api/quiz
 Content-Type: application/json
 
 {
-  "name": "Maths Quiz",
+  "name": "Sci Quiz",
   "questions": [],
   "highest_score": 0
 }
@@ -13,15 +13,15 @@ GET http://localhost:3000/api/quizzes
 
 ###
 
-GET http://localhost:3000/api/quiz/1
+GET http://localhost:3000/api/quiz/65fad3d228e3e26c36449b79
 
 ###
 
-PATCH http://localhost:3000/api/quiz/1
+PATCH http://localhost:3000/api/quiz/65fad3d228e3e26c36449b79
 Content-Type: application/json
 
 {
-  "name": "Updated Quiz Name",
+  "name": "Science Quiz",
   "highest_score": 100
 }
 

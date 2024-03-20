@@ -1,5 +1,6 @@
 const express = require('express');
 const Question = require('../models/questionModel');
+const Quiz = require('../models/model');
 const router = express.Router();
 
 // POST route to create a new question
@@ -17,7 +18,8 @@ router.post('/questions', async(req, res) => {
         });
 
         // Save the new question to the database
-        await newQuestion.save();
+        const ques = await newQuestion.save();
+        const quiz = await Quiz.findOneAndUpdate(newQuestion.quiz, { $push: { questions: ques._id } });
         res.status(201).send(newQuestion);
     } catch (error) {
         res.status(400).send({ error: error.message });

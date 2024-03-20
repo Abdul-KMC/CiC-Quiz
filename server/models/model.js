@@ -24,7 +24,10 @@ const quizSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    questions: [questionSchema],
+    questions: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Question'
+    },
     highest_score: {
         type: Number,
         required: true
