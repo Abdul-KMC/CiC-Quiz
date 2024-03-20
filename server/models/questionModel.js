@@ -16,10 +16,6 @@ const questionSchema = new mongoose.Schema({
     points: {
         type: Number,
         required: true
-    },
-    quiz: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Quiz'
     }
 });
 

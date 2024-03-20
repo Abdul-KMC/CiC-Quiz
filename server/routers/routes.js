@@ -16,7 +16,7 @@ router.post('/quiz', async(req, res) => {
 // Get all quizzes
 router.get('/quizzes', async(req, res) => {
     try {
-        const quizzes = await Quiz.find();
+        const quizzes = await Quiz.find().populate("questions");
         res.send(quizzes);
     } catch (error) {
         res.status(500).send(error);
