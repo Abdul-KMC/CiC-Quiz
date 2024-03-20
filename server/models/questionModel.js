@@ -16,19 +16,11 @@ const questionSchema = new mongoose.Schema({
     points: {
         type: Number,
         required: true
-    }
-});
-
-const quizSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
     },
-    questions: [questionSchema],
-    highest_score: {
-        type: Number,
-        required: true
+    quiz: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Quiz'
     }
 });
 
-module.exports = mongoose.model('Quiz', quizSchema);
+module.exports = mongoose.model('Question', questionSchema);
