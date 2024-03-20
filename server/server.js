@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const mongoString = process.env.DATABASE_URL;
 const routes = require('./routers/routes');
 const questionRoutes = require('./routers/questionRoutes');
+const userRoute = require('./routers/userRoute');
+const decodeToken = require('./routers/decodeToken')
 const middleware = require('./utils/middleware')
 
 mongoose.connect(mongoString);
@@ -23,6 +25,8 @@ app.use(express.json());
 app.use(middleware.morganMiddleware);
 app.use('/api', routes);
 app.use('/api', questionRoutes);
+app.use('/api/user', userRoute);
+app.use('/api', decodeToken);
 
 // Unknown endpoint
 app.use(middleware.unknownHandler)
