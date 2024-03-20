@@ -1,63 +1,73 @@
 const express = require('express');
-const Model = require('../models/model');
-const router = express.Router()
+const Quiz = require('../models/model');
+const router = express.Router();
 
-//Post Method
-router.post('/post', async(req, res) => {
-    const data = new Model({
-        key: req.body.value,
-    })
+// Post Method - Create a new quiz
+router.post('/quiz', async(req, res) => {
     try {
-        res.status(200).json(data)
+        const quiz = new Quiz(req.body);
+        await quiz.save();
+        res.status(201).send(quiz);
     } catch (error) {
-        res.status(400).json({ message: error.message })
+        res.status(400).send(error);
     }
-})
+});
 
-//Get all Method
-router.get('/getAll', async(req, res) => {
+// Get all quizzes
+router.get('/quizzes', async(req, res) => {
     try {
-        const data = await Model.find();
-        res.json(data)
+        const quizzes = await Quiz.find();
+        res.send(quizzes);
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        res.status(500).send(error);
     }
-})
+});
 
-//Get by ID Method
-router.get('/getOne/:id', async(req, res) => {
+// Get quiz by ID
+router.get('/quiz/:id', async(req, res) => {
     try {
-        const data = await Model.findById(req.params.id);
-        res.json(data)
+        const quiz = await Quiz.findById(req.params.id);
+        if (!quiz) {
+            return res.status(404).send();
+        }
+        res.send(quiz);
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        res.status(500).send(error);
     }
-})
+});
 
-//Update by ID Method
-router.patch('/update/:id', async(req, res) => {
+// Update quiz by ID
+router.patch('/quiz/:id', async(req, res) => {
+    const updates = Object.keys(req.body);
+    const allowedUpdates = ['name', 'highest_score']; // Add 'questions' if you want to update questions as well
+    const isValidOperation = updates.every(update => allowedUpdates.includes(update));
+
+    if (!isValidOperation) {
+        return res.status(400).send({ error: 'Invalid updates!' });
+    }
+
     try {
-        const id = req.params.id;
-        const updatedData = req.body;
-
-        const result = await Model.findByIdAndUpdate(
-            id, updatedData
-        )
-        res.send(result)
+        const quiz = await Quiz.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+        if (!quiz) {
+            return res.status(404).send();
+        }
+        res.send(quiz);
     } catch (error) {
-        res.status(400).json({ message: error.message })
+        res.status(400).send(error);
     }
-})
+});
 
-//Delete by ID Method
-router.delete('/delete/:id', async(req, res) => {
+// Delete quiz by ID
+router.delete('/quiz/:id', async(req, res) => {
     try {
-        const id = req.params.id;
-        const data = await Model.findByIdAndDelete(id)
-        res.send(`Document with ${data.name} has been deleted..`)
+        const quiz = await Quiz.findByIdAndDelete(req.params.id);
+        if (!quiz) {
+            return res.status(404).send();
+        }
+        res.send(quiz);
     } catch (error) {
-        res.status(400).json({ message: error.message })
+        res.status(500).send(error);
     }
-})
+});
 
 module.exports = router;

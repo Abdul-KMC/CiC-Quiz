@@ -1,0 +1,30 @@
+POST http://localhost:3000/api/quiz
+Content-Type: application/json
+
+{
+  "name": "Maths Quiz",
+  "questions": [],
+  "highest_score": 0
+}
+
+###
+
+GET http://localhost:3000/api/quizzes
+
+###
+
+GET http://localhost:3000/api/quiz/1
+
+###
+
+PATCH http://localhost:3000/api/quiz/1
+Content-Type: application/json
+
+{
+  "name": "Updated Quiz Name",
+  "highest_score": 100
+}
+
+###
+
+DELETE http://localhost:3000/api/quiz/65fabc19cfdc2a0b677e7356
