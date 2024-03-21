@@ -8,6 +8,7 @@ import UserProfile from './components/UserProfile';
 import Topics from './components/Topics';
 import Quiz from './components/Quiz';
 import Modify from './components/Modify';
+import SignUp from './components/SignUp';
 import setQuizDataToLocalStorage from '../data/localStorage';
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
       <div>
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/topics" element={<Topics />} />
