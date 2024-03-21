@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateQuiz, deleteQuiz } from '../reducers/quizReducer';
+import { updateTopic, deleteQuiz } from '../reducers/quizReducer';
 import Header from './Header';
 import Footer from './Footer';
 import '../style/Dashboard.css';
@@ -10,6 +10,7 @@ import userImage from '../images/user.png';
 function Topics() {
   const navigate = useNavigate();
   const quizData = useSelector(state => state.quiz.quizData);
+  console.log(quizData)
   const dispatch = useDispatch();
 
   const handleClickModify = (id) => {
@@ -36,7 +37,8 @@ function Topics() {
       }],
       highest_score: 0,
     };
-    dispatch(updateQuiz([...quizData, newTopic]));
+    const updatedQuiz = [...quizData, newTopic];
+    dispatch(updateTopic(updatedQuiz));
     navigate(`/topics`);
   };  
 

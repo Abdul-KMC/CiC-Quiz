@@ -23,43 +23,66 @@ function Modify() {
 
   const handleQuestionChange = (index, updatedQuestion) => {
     const updatedQuiz = { ...currentQuiz };
-    updatedQuiz.questions[index].question = updatedQuestion;
+    const updatedQuestions = [...updatedQuiz.questions];
+    updatedQuestions[index] = {
+      ...updatedQuestions[index],
+      question: updatedQuestion,
+    };
+    updatedQuiz.questions = updatedQuestions;
     setCurrentQuiz(updatedQuiz);
     updateLocalStorage(updatedQuiz);
-  };
+  };  
 
   const handleCorrectAnswerChange = (questionIndex, updatedCorrectAnswer) => {
     const updatedQuiz = { ...currentQuiz };
-    updatedQuiz.questions[questionIndex].correct_answer = updatedCorrectAnswer;
+    const updatedQuestions = [...updatedQuiz.questions];
+    updatedQuestions[questionIndex] = {
+      ...updatedQuestions[questionIndex],
+      correct_answer: updatedCorrectAnswer,
+    };
+    updatedQuiz.questions = updatedQuestions;
     setCurrentQuiz(updatedQuiz);
     updateLocalStorage(updatedQuiz);
   };
-
+  
   const handleOptionChange = (questionIndex, optionIndex, updatedOption) => {
     const updatedQuiz = { ...currentQuiz };
-    updatedQuiz.questions[questionIndex].options[optionIndex] = updatedOption;
+    const updatedQuestions = [...updatedQuiz.questions];
+    const updatedOptions = [...updatedQuestions[questionIndex].options];
+    updatedOptions[optionIndex] = updatedOption;
+    updatedQuestions[questionIndex] = {
+      ...updatedQuestions[questionIndex],
+      options: updatedOptions,
+    };
+    updatedQuiz.questions = updatedQuestions;
     setCurrentQuiz(updatedQuiz);
     updateLocalStorage(updatedQuiz);
   };
 
   const handleDeleteQuestion = (index) => {
     const updatedQuiz = { ...currentQuiz };
-    updatedQuiz.questions.splice(index, 1);
-    setCurrentQuiz(updatedQuiz);
-    updateLocalStorage(updatedQuiz);
-  };
+    if (Array.isArray(updatedQuiz.questions)) {
+      const updatedQuestions = [...updatedQuiz.questions];
+      updatedQuestions.splice(index, 1);
+      updatedQuiz.questions = updatedQuestions;
+      setCurrentQuiz(updatedQuiz);
+      updateLocalStorage(updatedQuiz);
+    }
+  };  
 
   const handleAddQuestion = () => {
     const updatedQuiz = { ...currentQuiz };
-    updatedQuiz.questions.push({
+    const updatedQuestions = [...updatedQuiz.questions];
+    updatedQuestions.push({
       question: '',
       options: ['', '', '', ''],
       correct_answer: '',
       points: 5,
     });
+    updatedQuiz.questions = updatedQuestions;
     setCurrentQuiz(updatedQuiz);
     updateLocalStorage(updatedQuiz);
-  };
+  };  
 
   const handleTopicNameChange = (updatedName) => {
     const updatedQuiz = { ...currentQuiz };
