@@ -12,7 +12,7 @@ POST http://localhost:3000/api/decode
 Content-Type: application/json
 
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWZiMzIxOWVkMThjODhlOWRhNjM3MDMiLCJ1c2VyTmFtZSI6IkFsZXgiLCJlbWFpbCI6ImFsZXhAZ21haWwuY29tIiwiaWF0IjoxNzEwOTYxMzI4fQ.3dYSvAE_Ol8od5CFGIawXIEwDEnHLwknXQzf7uG4jEU"
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWZiMzIxOWVkMThjODhlOWRhNjM3MDMiLCJ1c2VyTmFtZSI6IkFsZXgiLCJlbWFpbCI6ImFsZXhAZ21haWwuY29tIiwiaWF0IjoxNzExMDQ4NzIxfQ.DyLD0YmN89XLkzihOp5TUN45Etaps9teuP4I647gPPE"
 }
 
 ###
