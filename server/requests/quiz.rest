@@ -1,0 +1,30 @@
+POST http://localhost:3000/api/quiz
+Content-Type: application/json
+
+{
+  "name": "Sci Quiz",
+  "questions": [],
+  "highest_score": 0
+}
+
+###
+
+GET http://localhost:3000/api/quizzes
+
+###
+
+GET http://localhost:3000/api/quiz/65fad3d228e3e26c36449b79
+
+###
+
+PATCH http://localhost:3000/api/quiz/65fad3d228e3e26c36449b79
+Content-Type: application/json
+
+{
+  "name": "Science Quiz",
+  "highest_score": 100
+}
+
+###
+
+DELETE http://localhost:3000/api/quiz/65fabc19cfdc2a0b677e7356

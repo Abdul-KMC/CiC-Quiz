@@ -1,0 +1,39 @@
+POST http://localhost:3000/api/user/login
+Content-Type: application/json
+
+{
+  "email": "alex@gmail.com",
+  "password": "alex123"
+}
+
+###
+
+POST http://localhost:3000/api/decode
+Content-Type: application/json
+
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWZiMzIxOWVkMThjODhlOWRhNjM3MDMiLCJ1c2VyTmFtZSI6IkFsZXgiLCJlbWFpbCI6ImFsZXhAZ21haWwuY29tIiwiaWF0IjoxNzEwOTYxMzI4fQ.3dYSvAE_Ol8od5CFGIawXIEwDEnHLwknXQzf7uG4jEU"
+}
+
+###
+
+POST http://localhost:3000/api/user/register
+Content-Type: application/json
+
+{
+  "userName": "Alex",
+  "email": "alex@gmail.com",
+  "password": "alex123"
+}
+
+###
+
+GET http://localhost:3000/api/user
+
+###
+
+GET http://localhost:3000/api/user
+
+###
+
+DELETE http://localhost:3000/api/user

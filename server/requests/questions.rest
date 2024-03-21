@@ -1,0 +1,34 @@
+POST http://localhost:3000/api/questions
+Content-Type: application/json
+
+{
+  "question": "What is 2 ^ 4?",
+  "options": ["31", "14", "50", "16"],
+  "correct_answer": "16",
+  "points": 5,
+  "quiz_id": "65fb1f58f1b060db6155284f"
+}
+
+###
+
+GET http://localhost:3000/api/questions
+
+###
+
+GET http://localhost:3000/api/question/65fad4d728e3e26c36449b7f
+
+###
+
+PATCH http://localhost:3000/api/question/65fad4d728e3e26c36449b7f
+Content-Type: application/json
+
+{
+  "question": "What is 5 * 8?",
+  "options": [58, 85, 40, 22],
+  "correct_answer": 40,
+  "points": 10
+}
+
+###
+
+DELETE http://localhost:3000/api/question/2
