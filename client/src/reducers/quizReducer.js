@@ -11,8 +11,11 @@ const quizSlice = createSlice({
         setQuizData(state, action) {
             state.quizData = action.payload;
         },
-        updateQuiz(state, action) {
+        updateTopic(state, action) {
             state.quizData = action.payload;
+        },
+        updateQuiz(state, action) {
+            state.quizData = action.payload.updatedQuiz;
         },
         deleteQuiz(state, action) {
             const index = action.payload;
@@ -21,5 +24,5 @@ const quizSlice = createSlice({
     },
 });
 
-export const { setQuizData, updateQuiz, deleteQuiz } = quizSlice.actions;
+export const { setQuizData, updateTopic, updateQuiz, deleteQuiz } = quizSlice.actions;
 export default quizSlice.reducer;
