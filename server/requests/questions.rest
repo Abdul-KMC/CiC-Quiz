@@ -2,11 +2,11 @@ POST http://localhost:3000/api/questions
 Content-Type: application/json
 
 {
-  "question": "What is 2 ^ 4?",
-  "options": ["31", "14", "50", "16"],
-  "correct_answer": "16",
+  "question": "Formulae to calculate speed?",
+  "options": ["displacement/time", "time/distance", "distance/time", "time/displacement"],
+  "correct_answer": "distance/time",
   "points": 5,
-  "quiz_id": "65fb1f58f1b060db6155284f"
+  "quiz_id": "65ff1b62bc89d9cabbc90ec8"
 }
 
 ###
@@ -31,4 +31,9 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/api/question/2
+DELETE http://localhost:3000/api/question/65ff1fb49fabefe227ee10ca
+Content-Type: application/json
+
+{
+  "quizId": "65ff1b62bc89d9cabbc90ec8"
+}

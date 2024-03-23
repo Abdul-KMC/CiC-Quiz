@@ -41,7 +41,7 @@ function SignUp() {
                     <button type="submit">SignUp</button>
                 </form>
                 <p>{errorMessage}</p>
-                <p className='signin-switch'>Already have an account? <span onClick={() => navigate('/')}>Login</span></p>
+                <p className='signin-switch'>Already have an account? <span onClick={() => navigate('/')}><strong>Login</strong></span></p>
             </div>
             <Footer />
         </div>

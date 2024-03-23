@@ -73,11 +73,21 @@ router.patch('/question/:id', async(req, res) => {
 // Delete question by ID
 router.delete('/question/:id', async(req, res) => {
     try {
+        const { quizId } = req.body
+            // Check if the basket exists
+        const quiz = await Quiz.findById(quizId)
+        if (!quiz) {
+            return response.status(400).send({
+                error: 'no such quiz exists to remove the question from'
+            })
+        }
         const question = await Question.findByIdAndDelete(req.params.id);
         if (!question) {
             return res.status(404).send();
         }
-        res.send(question);
+        quiz.questions = quiz.questions.filter(id => id.toJSON() !== req.params.id)
+        await quiz.save()
+        res.status(204);
     } catch (error) {
         res.status(500).send(error);
     }
