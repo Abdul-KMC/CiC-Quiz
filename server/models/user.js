@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         maxlength: 255,
+    },
+    quizzes: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Quiz'
     }
 });
 const User = mongoose.model("Users", userSchema);

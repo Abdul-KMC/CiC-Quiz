@@ -38,7 +38,7 @@ function Login() {
                     <button type="submit">Login</button>
                 </form>
                 <p>{errorMessage}</p>
-                <p className='signin-switch' >Don't have an account yet? <span onClick={() => navigate('/signup')}>SignUp</span></p>
+                <p className='signin-switch' >Don't have an account yet? <span onClick={() => navigate('/signup')}><strong>SignUp</strong></span></p>
             </div>
           <Footer />
         </div>
