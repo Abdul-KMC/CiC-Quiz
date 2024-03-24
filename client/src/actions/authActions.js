@@ -23,7 +23,7 @@ export const loginUser = (userData) => async(dispatch) => {
         localStorage.setItem('jwtToken', token);
     } catch (err) {
         if (err.response) {
-            alert(err.response.data);
+            throw new Error(err.response.data);
         } else {
             alert('An error occurred while logging in');
         }

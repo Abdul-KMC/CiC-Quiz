@@ -28,7 +28,7 @@ function Login() {
           await dispatch(loginUser(formData));
           navigate('/dashboard');
         } catch (error) {
-          console.error('Login failed:', error.message);
+            setErrorMessage(error.message);
         }
     };
 
