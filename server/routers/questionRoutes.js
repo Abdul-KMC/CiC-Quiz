@@ -4,22 +4,34 @@ const Quiz = require('../models/model');
 const router = express.Router();
 
 // POST route to create a new question
-router.post('/questions', async(req, res) => {
+router.post('/:id', async(req, res) => {
     try {
-        const { question, options, correct_answer, points, quiz_id } = req.body;
+        const quizId = req.params.id
+        const { question, options, correct_answer, points } = req.body;
+        if (!question || !options || !correct_answer || !points) {
+            return response.status(400).send({
+                error: 'missing content in body'
+            })
+        }
+        const quiz = await Quiz.findById(quizId)
+        if (!quiz) {
+            return response.status(400).send({
+                error: 'no such quiz exists to add the question to'
+            })
+        }
 
         // Create a new question instance
         const newQuestion = new Question({
             question,
             options,
             correct_answer,
-            points,
-            quiz: quiz_id // Assign quiz_id to the quiz field
+            points
         });
 
         // Save the new question to the database
         const ques = await newQuestion.save();
-        const quiz = await Quiz.findOneAndUpdate(newQuestion.quiz, { $push: { questions: ques._id } });
+        quiz.questions = quiz.questions.concat(ques._id)
+        await quiz.save();
         res.status(201).send(newQuestion);
     } catch (error) {
         res.status(400).send({ error: error.message });
@@ -27,7 +39,7 @@ router.post('/questions', async(req, res) => {
 });
 
 // Get all questions
-router.get('/questions', async(req, res) => {
+router.get('/', async(req, res) => {
     try {
         const questions = await Question.find();
         res.send(questions);
@@ -37,7 +49,7 @@ router.get('/questions', async(req, res) => {
 });
 
 // Get question by ID
-router.get('/question/:id', async(req, res) => {
+router.get('/:id', async(req, res) => {
     try {
         const question = await Question.findById(req.params.id);
         if (!question) {
@@ -50,7 +62,7 @@ router.get('/question/:id', async(req, res) => {
 });
 
 // Update question by ID
-router.patch('/question/:id', async(req, res) => {
+router.patch('/:id', async(req, res) => {
     const updates = Object.keys(req.body);
     const allowedUpdates = ['question', 'options', 'correct_answer', 'points'];
     const isValidOperation = updates.every(update => allowedUpdates.includes(update));
@@ -71,10 +83,10 @@ router.patch('/question/:id', async(req, res) => {
 });
 
 // Delete question by ID
-router.delete('/question/:id', async(req, res) => {
+router.delete('/:id', async(req, res) => {
     try {
         const { quizId } = req.body
-            // Check if the basket exists
+            // Check if the quiz exists
         const quiz = await Quiz.findById(quizId)
         if (!quiz) {
             return response.status(400).send({
@@ -87,7 +99,7 @@ router.delete('/question/:id', async(req, res) => {
         }
         quiz.questions = quiz.questions.filter(id => id.toJSON() !== req.params.id)
         await quiz.save()
-        res.status(204);
+        res.status(204).send();
     } catch (error) {
         res.status(500).send(error);
     }

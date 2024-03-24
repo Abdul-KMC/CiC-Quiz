@@ -2,6 +2,8 @@ const _ = require("lodash");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.js");
+const Quiz = require('../models/model');
+const Questions = require('../models/questionModel');
 
 // Register User
 exports.registerUser = async(req, res) => {
@@ -26,6 +28,22 @@ exports.registerUser = async(req, res) => {
     savedUser = _.pick(savedUser, ["_id", "userName", "email"]);
 
     res.status(201).send(savedUser);
+};
+
+// Delete User
+exports.deleteUser = async(req, res) => {
+    const id = req.params.id;
+
+    const quizzesIds = (await User.findById(id)).Quiz.map(id => id.toJSON())
+    const quizzes = await Promise.all(quizzesIds.map(id => Quiz.findById(id)))
+
+    const questions = quizzes.map(quiz => quiz.questions)
+    const questionsIds = questions.flat().map(id => id.toJSON())
+
+    await Promise.all(questionsIds.map(id => Questions.findByIdAndDelete(id)))
+    await Promise.all(quizzesIds.map(id => Quiz.findByIdAndDelete(id)))
+    await User.findByIdAndDelete(id)
+    res.status(204).send()
 };
 
 // logIn User

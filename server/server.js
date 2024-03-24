@@ -24,7 +24,7 @@ const app = express();
 app.use(express.json());
 app.use(middleware.morganMiddleware);
 app.use('/api', routes);
-app.use('/api', questionRoutes);
+app.use('/api/questions', questionRoutes);
 app.use('/api/user', userRoute);
 app.use('/api', decodeToken);
 

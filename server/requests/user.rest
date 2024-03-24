@@ -32,7 +32,7 @@ GET http://localhost:3000/api/user
 
 ###
 
-GET http://localhost:3000/api/user
+GET http://localhost:3000/api/user/getUser/65ff6397f400d3ec8e5ff82d
 
 ###
 
