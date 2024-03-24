@@ -29,7 +29,6 @@ function Modify() {
       question: updatedQuestion,
     };
     updatedQuiz.questions = updatedQuestions;
-    setCurrentQuiz(updatedQuiz);
     updateLocalStorage(updatedQuiz);
   };  
 
@@ -41,7 +40,6 @@ function Modify() {
       correct_answer: updatedCorrectAnswer,
     };
     updatedQuiz.questions = updatedQuestions;
-    setCurrentQuiz(updatedQuiz);
     updateLocalStorage(updatedQuiz);
   };
   
@@ -55,7 +53,6 @@ function Modify() {
       options: updatedOptions,
     };
     updatedQuiz.questions = updatedQuestions;
-    setCurrentQuiz(updatedQuiz);
     updateLocalStorage(updatedQuiz);
   };
 
@@ -65,10 +62,14 @@ function Modify() {
       const updatedQuestions = [...updatedQuiz.questions];
       updatedQuestions.splice(index, 1);
       updatedQuiz.questions = updatedQuestions;
-      setCurrentQuiz(updatedQuiz);
       updateLocalStorage(updatedQuiz);
     }
-  };  
+  };
+  
+  const handleModifyQuestion = (index) => {
+    // PATCH request at http://localhost:3000/api/questions/${question_id}
+    // send currentQuiz.question, currentQuiz.options, currentQuiz.correct_answer, currentQuiz.points as a request body
+  };
 
   const handleAddQuestion = () => {
     const updatedQuiz = { ...currentQuiz };
@@ -80,14 +81,12 @@ function Modify() {
       points: 5,
     });
     updatedQuiz.questions = updatedQuestions;
-    setCurrentQuiz(updatedQuiz);
     updateLocalStorage(updatedQuiz);
   };  
 
   const handleTopicNameChange = (updatedName) => {
     const updatedQuiz = { ...currentQuiz };
     updatedQuiz.name = updatedName;
-    setCurrentQuiz(updatedQuiz);
     updateLocalStorage(updatedQuiz);
   };
 
@@ -101,6 +100,7 @@ function Modify() {
     const updatedQuizData = quizData.map((item, index) =>
       index == id ? updatedQuiz : item
     );
+    setCurrentQuiz(updatedQuiz);
     dispatch(updateQuiz({ id, updatedQuiz: updatedQuizData }));
     localStorage.setItem('quizData', JSON.stringify(updatedQuizData));
   };
@@ -143,6 +143,7 @@ function Modify() {
                         onChange={(e) => handleCorrectAnswerChange(questionIndex, e.target.value)}
                       />
                       <button className="delete" onClick={() => handleDeleteQuestion(questionIndex)}>D</button>
+                      <button className="modift" onClick={() => handleModifyQuestion(questionIndex)}>M</button>
                     </section>
                     <section className="options">
                       {question.options.map((option, optionIndex) => (

@@ -17,8 +17,7 @@ export const registerUser = (userData) => async(dispatch) => {
 export const loginUser = (userData) => async(dispatch) => {
     try {
         const res = await axios.post('http://localhost:3000/api/user/login', userData);
-        const { token } = res;
-        console.log(token);
+        const token = res.data;
         dispatch(setJWTToken(token));
         localStorage.setItem('jwtToken', token);
     } catch (err) {

@@ -13,7 +13,7 @@ GET http://localhost:3000/api/quizzes
 
 ###
 
-GET http://localhost:3000/api/quiz/65fad3d228e3e26c36449b79
+GET http://localhost:3000/api/quiz/65ff7351241c70e017738184
 
 ###
 

@@ -10,7 +10,6 @@ import userImage from '../images/user.png';
 function Topics() {
   const navigate = useNavigate();
   const quizData = useSelector(state => state.quiz.quizData);
-  console.log(quizData)
   const dispatch = useDispatch();
 
   const handleClickModify = (id) => {
@@ -47,24 +46,6 @@ function Topics() {
   };
 
   const updateBackend = (data) => {
-    // Make a PUT request to update the backend
-    // fetch('http://localhost:3000/quizData', {
-    //   method: 'PUT',
-    //   body: JSON.stringify(data),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    // })
-    //   .then((response) => {
-    //     if (!response.ok) {
-    //       throw new Error('Failed to update data');
-    //     }
-    //     // If successful, update local storage with the new data
-    //     localStorage.setItem('quizData', JSON.stringify(data));
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error updating data:', error);
-    //   });
     console.log("Quiz backend updated successful");
   };
 
