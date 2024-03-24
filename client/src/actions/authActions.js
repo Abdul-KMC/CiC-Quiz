@@ -20,6 +20,8 @@ export const loginUser = (userData) => async(dispatch) => {
         const token = res.data;
         dispatch(setJWTToken(token));
         localStorage.setItem('jwtToken', token);
+        dispatch(setJWTToken(token));
+        return token;
     } catch (err) {
         if (err.response) {
             throw new Error(err.response.data);

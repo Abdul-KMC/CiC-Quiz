@@ -10,6 +10,7 @@ function Header() {
 
   const handleLogout = () => {
     dispatch(logoutUser());
+    localStorage.setItem('quizData', []);
     navigate('/');
   };
 

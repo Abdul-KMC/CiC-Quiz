@@ -72,7 +72,7 @@ const setQuizDataToLocalStorage = () => {
         }
     ];
 
-    localStorage.setItem('quizData', JSON.stringify(quizData));
+    // localStorage.setItem('quizData', JSON.stringify(quizData));
 };
 
 export default setQuizDataToLocalStorage;

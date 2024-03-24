@@ -64,8 +64,6 @@ exports.logIn = async(req, res) => {
         "email",
     ]);
     const token = jwt.sign(user, process.env.JWT_SECRET_KEY);
-    // console.log("this is token: " + token);
-    // console.log("this is type of token: " + typeof token);
     res.status(200).send(token);
 };
 

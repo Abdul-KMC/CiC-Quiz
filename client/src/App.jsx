@@ -1,7 +1,7 @@
+import axios from 'axios';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { setJWTToken } from './reducers/quizReducer';
+import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { setQuizData } from './reducers/quizReducer';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
@@ -10,20 +10,56 @@ import Topics from './components/Topics';
 import Quiz from './components/Quiz';
 import Modify from './components/Modify';
 import SignUp from './components/SignUp';
-import setQuizDataToLocalStorage from '../data/localStorage';
 
 const App = () => {
   const dispatch = useDispatch();
+  const [fetchingData, setFetchingData] = useState(true);
 
   useEffect(() => {
-    const jwtToken = localStorage.getItem('jwtToken');
-    if (jwtToken) {
-      dispatch(setJWTToken(jwtToken));
-    }
-    setQuizDataToLocalStorage();
-    const dataFromLocalStorage = JSON.parse(localStorage.getItem('quizData')) || [];
-    dispatch(setQuizData(dataFromLocalStorage));
-  }, [dispatch]);
+    const fetchData = async () => {
+        try {
+          // const token = useSelector(state => state.quiz.jwtToken);
+            const token = localStorage.getItem('jwtToken');
+            if (token) {
+                // Decode token to get user data
+                const decodedResponse = await axios.post('http://localhost:3000/api/decode', { token });
+                const userId = decodedResponse.data._id;
+
+                // Fetch user's quizzes
+                const userResponse = await axios.get(`http://localhost:3000/api/user/getUser/${userId}`);
+                const quizzesIds = userResponse.data.quizzes;
+
+                const quizzesData = [];
+                for (const quizId of quizzesIds) {
+                    const quizResponse = await axios.get(`http://localhost:3000/api/quiz/${quizId}`);
+                    const quiz = quizResponse.data;
+
+                    const questionsData = [];
+                    for (const questionId of quiz.questions) {
+                        const questionResponse = await axios.get(`http://localhost:3000/api/questions/${questionId}`);
+                        questionsData.push(questionResponse.data);
+                    }
+
+                    quiz.questions = questionsData;
+                    quizzesData.push(quiz);
+                }
+
+                dispatch(setQuizData(quizzesData));
+                localStorage.setItem('quizData', quizzesData);
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setFetchingData(false);
+        }
+    };
+
+    fetchData();
+}, [dispatch]);
+
+if (fetchingData) {
+    return <div>Fetching Data...</div>;
+}
 
   return (
     <Router>
