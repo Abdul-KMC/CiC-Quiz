@@ -2,7 +2,7 @@ import axios from 'axios';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setQuizData } from './reducers/quizReducer';
+import { setQuizData, setUserId } from './reducers/quizReducer';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import UserProfile from './components/UserProfile';
@@ -24,6 +24,7 @@ const App = () => {
                 // Decode token to get user data
                 const decodedResponse = await axios.post('http://localhost:3000/api/decode', { token });
                 const userId = decodedResponse.data._id;
+                dispatch(setUserId(userId));
 
                 // Fetch user's quizzes
                 const userResponse = await axios.get(`http://localhost:3000/api/user/getUser/${userId}`);

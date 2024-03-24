@@ -2,7 +2,7 @@ POST http://localhost:3000/api/quiz/65ff6397f400d3ec8e5ff82d
 Content-Type: application/json
 
 {
-  "name": "Sci Quiz",
+  "name": "Maths Quiz",
   "questions": [],
   "highest_score": 0
 }

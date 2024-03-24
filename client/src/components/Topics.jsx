@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -10,44 +11,46 @@ import userImage from '../images/user.png';
 function Topics() {
   const navigate = useNavigate();
   const quizData = useSelector(state => state.quiz.quizData);
+  const user_id = useSelector(state => state.quiz.userId);
   const dispatch = useDispatch();
 
   const handleClickModify = (id) => {
     navigate(`/modify/${id}`);
   };
 
-  const handleClickDelete = (id) => {
-    dispatch(deleteQuiz(id));
-    navigate('/topics');
-  };  
+  const handleClickDelete = async (id) => {
+    try {
+      const quizId = quizData[id]._id;
+
+      await axios.delete(`http://localhost:3000/api/quiz/${quizId}`, { data: { userId: user_id } });
+      dispatch(deleteQuiz(id));
+    } catch (error) {
+      console.error('Error deleting quiz:', error);
+    }
+  };
 
   const handleClickTopic = (id) => {
     navigate(`/quiz/${id}`);
   };
 
-  const handleAddTopic = () => {
-    const newTopic = {
-      name: '',
-      questions: [{
-        question: "",
-        options: ["", "", "", ""],
-        correct_answer: "",
-        points: 5
-      }],
-      highest_score: 0,
-    };
-    const updatedQuiz = [...quizData, newTopic];
-    dispatch(updateTopic(updatedQuiz));
-    navigate(`/topics`);
+  const handleAddTopic = async () => {
+    try {
+      const newTopic = {
+        name: 'New Topic',
+        questions: [],
+        highest_score: 0,
+      };
+
+      // Send POST request to add the new topic
+      const response = await axios.post(`http://localhost:3000/api/quiz/${user_id}`, newTopic);
+      const addedTopic = response.data;
+
+      const updatedQuizData = [...quizData, addedTopic];
+      dispatch(updateTopic(updatedQuizData));
+    } catch (error) {
+      console.error('Error adding topic:', error);
+    }
   };  
-
-  const handleModifyTopics = () => {
-    updateBackend(quizData);
-  };
-
-  const updateBackend = (data) => {
-    console.log("Quiz backend updated successful");
-  };
 
   return (
     <div className="topics">
@@ -78,7 +81,6 @@ function Topics() {
             ))}
           </div>
           <button className="addtopic" onClick={handleAddTopic}>+</button>
-          <button className="modifytopics" onClick={handleModifyTopics}>Modify Topics</button>
         </section>
       </div>
       <Footer />
