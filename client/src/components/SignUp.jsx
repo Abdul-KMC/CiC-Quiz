@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { registerUser } from '../actions/authActions';
 import Header from './Header'
 import Footer from './Footer'
 import '../App.css';
 
 function SignUp() {
     const [formData, setFormData] = useState({
-        username: '',
+        userName: '',
         email: '',
         password: '',
     });
+    const dispatch = useDispatch();
     const [errorMessage, setErrorMessage] = useState('');
-
     const navigate = useNavigate();
 
     const handleInputChange = (e) => {
@@ -23,8 +25,13 @@ function SignUp() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        console.log('Registration form submitted:', formData);
-        navigate('/login');
+        try {
+            console.log(formData);
+          await dispatch(registerUser(formData));
+          navigate('/')
+        } catch (error) {
+            setErrorMessage(error.message)
+        }
     };
 
     return (
@@ -33,7 +40,7 @@ function SignUp() {
             <div className='form-container'>
                 <form className='loginForm' onSubmit={handleFormSubmit}>
                     <label>Username:</label>
-                    <input type="text" name="username" placeholder='Username' value={formData.username} onChange={handleInputChange} required />
+                    <input type="text" name="userName" placeholder='Username' value={formData.userName} onChange={handleInputChange} required />
                     <label>Email:</label>
                     <input type="text" name="email" placeholder='Email' value={formData.email} onChange={handleInputChange} required />
                     <label>Password:</label>

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../actions/authActions';
 import Header from './Header'
 import Footer from './Footer'
 import '../App.css';
@@ -10,7 +12,7 @@ function Login() {
         password: '',
     });
     const [errorMessage, setErrorMessage] = useState('');
-
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleInputChange = (e) => {
@@ -22,8 +24,12 @@ function Login() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        console.log('Login form submitted:', formData);
-        navigate('/dashboard');
+        try {
+          await dispatch(loginUser(formData));
+          navigate('/dashboard');
+        } catch (error) {
+            setErrorMessage(error.message);
+        }
     };
 
     return (
