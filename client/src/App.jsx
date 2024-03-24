@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { setJWTToken } from './reducers/quizReducer';
 import { setQuizData } from './reducers/quizReducer';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
@@ -15,6 +16,10 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const jwtToken = localStorage.getItem('jwtToken');
+    if (jwtToken) {
+      dispatch(setJWTToken(jwtToken));
+    }
     setQuizDataToLocalStorage();
     const dataFromLocalStorage = JSON.parse(localStorage.getItem('quizData')) || [];
     dispatch(setQuizData(dataFromLocalStorage));
