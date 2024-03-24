@@ -1,12 +1,11 @@
-POST http://localhost:3000/api/questions
+POST http://localhost:3000/api/questions/65ff7351241c70e017738184
 Content-Type: application/json
 
 {
-  "question": "Formulae to calculate speed?",
-  "options": ["displacement/time", "time/distance", "distance/time", "time/displacement"],
-  "correct_answer": "distance/time",
-  "points": 5,
-  "quiz_id": "65ff1b62bc89d9cabbc90ec8"
+  "question": "RBC stands for?",
+  "options": [1, 2, 3, 4],
+  "correct_answer": 1,
+  "points": 5
 }
 
 ###
@@ -15,11 +14,11 @@ GET http://localhost:3000/api/questions
 
 ###
 
-GET http://localhost:3000/api/question/65fad4d728e3e26c36449b7f
+GET http://localhost:3000/api/questions/65fad4d728e3e26c36449b7f
 
 ###
 
-PATCH http://localhost:3000/api/question/65fad4d728e3e26c36449b7f
+PATCH http://localhost:3000/api/questions/65fad4d728e3e26c36449b7f
 Content-Type: application/json
 
 {
@@ -31,9 +30,9 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/api/question/65ff1fb49fabefe227ee10ca
+DELETE http://localhost:3000/api/questions/65ff70c7e8440601d15e8093
 Content-Type: application/json
 
 {
-  "quizId": "65ff1b62bc89d9cabbc90ec8"
+  "quizId": "65ff64f8f400d3ec8e5ff835"
 }
