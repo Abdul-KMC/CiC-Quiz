@@ -1,10 +1,10 @@
-POST http://localhost:3000/api/questions/65ff7351241c70e017738184
+POST http://localhost:3000/api/questions/66018111db3aa87df5037bd5
 Content-Type: application/json
 
 {
-  "question": "RBC stands for?",
-  "options": [1, 2, 3, 4],
-  "correct_answer": 1,
+  "question": "Which is not a hardware?",
+  "options": ["Monitor", "MS Excel", "Mouse", "Speaker"],
+  "correct_answer": "MS Excel",
   "points": 5
 }
 
@@ -18,14 +18,14 @@ GET http://localhost:3000/api/questions/65ff76cadba1c8b88db68262
 
 ###
 
-PATCH http://localhost:3000/api/questions/65fad4d728e3e26c36449b7f
+PATCH http://localhost:3000/api/questions/66018229db3aa87df5037bdb
 Content-Type: application/json
 
 {
-  "question": "What is 5 * 8?",
-  "options": [58, 85, 40, 22],
-  "correct_answer": 40,
-  "points": 10
+  "question": "Which is not a hardware component?",
+  "options": ["Monitor", "MS Excel", "Mouse", "Speaker"],
+  "correct_answer": "MS Excel",
+  "points": 5
 }
 
 ###

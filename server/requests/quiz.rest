@@ -1,8 +1,8 @@
-POST http://localhost:3000/api/quiz/65ff6397f400d3ec8e5ff82d
+POST http://localhost:3000/api/quiz/65ffa772f60a390514dad503
 Content-Type: application/json
 
 {
-  "name": "Maths Quiz",
+  "name": "Computer Quiz",
   "questions": [],
   "highest_score": 0
 }
@@ -17,12 +17,12 @@ GET http://localhost:3000/api/quiz/65ff7351241c70e017738184
 
 ###
 
-PATCH http://localhost:3000/api/quiz/65fad3d228e3e26c36449b79
+PATCH http://localhost:3000/api/quiz/6600f77176880aba656a8750
 Content-Type: application/json
 
 {
-  "name": "Science Quiz",
-  "highest_score": 100
+  "name": "Maths Quiz",
+  "highest_score": 0
 }
 
 ###

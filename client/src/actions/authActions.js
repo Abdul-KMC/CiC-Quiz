@@ -20,7 +20,6 @@ export const loginUser = (userData) => async(dispatch) => {
         const token = res.data;
         dispatch(setJWTToken(token));
         localStorage.setItem('jwtToken', token);
-        dispatch(setJWTToken(token));
         return token;
     } catch (err) {
         if (err.response) {
@@ -34,4 +33,5 @@ export const loginUser = (userData) => async(dispatch) => {
 export const logoutUser = () => (dispatch) => {
     dispatch(clearJWTToken());
     localStorage.removeItem('jwtToken');
+    localStorage.removeItem('quizData');
 };

@@ -30,6 +30,7 @@ const quizSlice = createSlice({
             state.userId = action.payload;
         },
         clearJWTToken(state) {
+            state.quizData = [];
             state.jwtToken = null;
             state.userId = null;
         },
