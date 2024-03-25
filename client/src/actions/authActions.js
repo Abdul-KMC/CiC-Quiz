@@ -17,10 +17,10 @@ export const registerUser = (userData) => async(dispatch) => {
 export const loginUser = (userData) => async(dispatch) => {
     try {
         const res = await axios.post('http://localhost:3000/api/user/login', userData);
-        const { token } = res;
-        console.log(token);
+        const token = res.data;
         dispatch(setJWTToken(token));
         localStorage.setItem('jwtToken', token);
+        return token;
     } catch (err) {
         if (err.response) {
             throw new Error(err.response.data);
@@ -33,4 +33,5 @@ export const loginUser = (userData) => async(dispatch) => {
 export const logoutUser = () => (dispatch) => {
     dispatch(clearJWTToken());
     localStorage.removeItem('jwtToken');
+    localStorage.removeItem('quizData');
 };

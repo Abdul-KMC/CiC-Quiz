@@ -64,7 +64,6 @@ exports.logIn = async(req, res) => {
         "email",
     ]);
     const token = jwt.sign(user, process.env.JWT_SECRET_KEY);
-
     res.status(200).send(token);
 };
 

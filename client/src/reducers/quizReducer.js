@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     quizData: [],
     jwtToken: null,
+    userId: null,
 };
 
 const quizSlice = createSlice({
@@ -25,11 +26,16 @@ const quizSlice = createSlice({
         setJWTToken(state, action) {
             state.jwtToken = action.payload;
         },
+        setUserId(state, action) {
+            state.userId = action.payload;
+        },
         clearJWTToken(state) {
+            state.quizData = [];
             state.jwtToken = null;
+            state.userId = null;
         },
     },
 });
 
-export const { setQuizData, updateTopic, updateQuiz, deleteQuiz, setJWTToken, clearJWTToken } = quizSlice.actions;
+export const { setQuizData, updateTopic, updateQuiz, deleteQuiz, setJWTToken, setUserId, clearJWTToken } = quizSlice.actions;
 export default quizSlice.reducer;

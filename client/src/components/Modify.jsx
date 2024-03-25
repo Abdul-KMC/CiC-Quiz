@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -29,7 +30,6 @@ function Modify() {
       question: updatedQuestion,
     };
     updatedQuiz.questions = updatedQuestions;
-    setCurrentQuiz(updatedQuiz);
     updateLocalStorage(updatedQuiz);
   };  
 
@@ -41,7 +41,6 @@ function Modify() {
       correct_answer: updatedCorrectAnswer,
     };
     updatedQuiz.questions = updatedQuestions;
-    setCurrentQuiz(updatedQuiz);
     updateLocalStorage(updatedQuiz);
   };
   
@@ -55,39 +54,60 @@ function Modify() {
       options: updatedOptions,
     };
     updatedQuiz.questions = updatedQuestions;
-    setCurrentQuiz(updatedQuiz);
     updateLocalStorage(updatedQuiz);
   };
 
-  const handleDeleteQuestion = (index) => {
-    const updatedQuiz = { ...currentQuiz };
-    if (Array.isArray(updatedQuiz.questions)) {
+  const handleDeleteQuestion = async (index) => {
+    try {
+      const questionId = currentQuiz.questions[index]._id;
+      const updatedQuiz = { ...currentQuiz };
       const updatedQuestions = [...updatedQuiz.questions];
       updatedQuestions.splice(index, 1);
       updatedQuiz.questions = updatedQuestions;
-      setCurrentQuiz(updatedQuiz);
+      await axios.delete(`http://localhost:3000/api/questions/${questionId}`, { data: { quizId: currentQuiz._id } });
       updateLocalStorage(updatedQuiz);
+    } catch (error) {
+      console.error('Error deleting question:', error);
     }
-  };  
+  };
+  
+  const handleModifyQuestion = async (index) => {
+    try {
+      const questionId = currentQuiz.questions[index]._id;
+      await axios.patch(`http://localhost:3000/api/questions/${questionId}`, {
+        question: currentQuiz.questions[index].question,
+        options: currentQuiz.questions[index].options,
+        correct_answer: currentQuiz.questions[index].correct_answer,
+        points: currentQuiz.questions[index].points,
+      });
+    } catch (error) {
+      console.error('Error updating highest_score:', error);
+    }
+  };
 
-  const handleAddQuestion = () => {
-    const updatedQuiz = { ...currentQuiz };
-    const updatedQuestions = [...updatedQuiz.questions];
-    updatedQuestions.push({
-      question: '',
-      options: ['', '', '', ''],
-      correct_answer: '',
-      points: 5,
-    });
-    updatedQuiz.questions = updatedQuestions;
-    setCurrentQuiz(updatedQuiz);
-    updateLocalStorage(updatedQuiz);
+  const handleAddQuestion = async () => {
+    try {
+      const quizId = currentQuiz._id;
+      const newQuestion = {
+        question: 'New Question',
+        options: ["opt1", "opt2", "opt3", "opt4"],
+        correct_answer: "correct_answer",
+        points: 5,
+      };
+      const response = await axios.post(`http://localhost:3000/api/questions/${quizId}`, newQuestion);
+      const updatedQuiz = { ...currentQuiz };
+      const updatedQuestions = [...updatedQuiz.questions];
+      updatedQuestions.push(response.data);
+      updatedQuiz.questions = updatedQuestions;
+      updateLocalStorage(updatedQuiz);
+    } catch (error) {
+      console.error('Error adding question:', error);
+    }
   };  
 
   const handleTopicNameChange = (updatedName) => {
     const updatedQuiz = { ...currentQuiz };
     updatedQuiz.name = updatedName;
-    setCurrentQuiz(updatedQuiz);
     updateLocalStorage(updatedQuiz);
   };
 
@@ -101,6 +121,7 @@ function Modify() {
     const updatedQuizData = quizData.map((item, index) =>
       index == id ? updatedQuiz : item
     );
+    setCurrentQuiz(updatedQuiz);
     dispatch(updateQuiz({ id, updatedQuiz: updatedQuizData }));
     localStorage.setItem('quizData', JSON.stringify(updatedQuizData));
   };
@@ -143,6 +164,7 @@ function Modify() {
                         onChange={(e) => handleCorrectAnswerChange(questionIndex, e.target.value)}
                       />
                       <button className="delete" onClick={() => handleDeleteQuestion(questionIndex)}>D</button>
+                      <button className="modift" onClick={() => handleModifyQuestion(questionIndex)}>M</button>
                     </section>
                     <section className="options">
                       {question.options.map((option, optionIndex) => (
