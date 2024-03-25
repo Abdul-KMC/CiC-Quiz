@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -49,6 +50,7 @@ function Quiz() {
         });
   
         if (score > quiz.highest_score) {
+          updateBackend(quiz, score);
           return { ...quiz, highest_score: score };
         } else {
           alert('Score is less than highest score.');
@@ -72,6 +74,18 @@ function Quiz() {
   const handlePlayAgainClick = () => {
     setSelectedAnswers(Array(currentQuiz.questions.length).fill(''));
     setShowCorrectAnswer(false);
+  };
+
+  const updateBackend = async (quiz, score) => {
+    try {
+      await axios.patch(`http://localhost:3000/api/quiz/${quiz._id}`, {
+        name: quiz.name,
+        highest_score: score
+      });
+      console.log('Quiz data updated successfully:', quiz);
+    } catch (error) {
+      console.error('Error updating quiz data:', error);
+    }
   };
 
   return (

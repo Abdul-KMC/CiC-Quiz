@@ -22,8 +22,8 @@ function Topics() {
     try {
       const quizId = quizData[id]._id;
 
-      await axios.delete(`http://localhost:3000/api/quiz/${quizId}`, { data: { userId: user_id } });
       dispatch(deleteQuiz(id));
+      await axios.delete(`http://localhost:3000/api/quiz/${quizId}`, { data: { userId: user_id } });
     } catch (error) {
       console.error('Error deleting quiz:', error);
     }
