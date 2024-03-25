@@ -82,9 +82,8 @@ function Quiz() {
         name: quiz.name,
         highest_score: score
       });
-      console.log('Quiz data updated successfully:', quiz);
     } catch (error) {
-      console.error('Error updating quiz data:', error);
+      console.error('Error updating highest_score:', error);
     }
   };
 

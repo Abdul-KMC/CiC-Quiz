@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -56,32 +57,52 @@ function Modify() {
     updateLocalStorage(updatedQuiz);
   };
 
-  const handleDeleteQuestion = (index) => {
-    const updatedQuiz = { ...currentQuiz };
-    if (Array.isArray(updatedQuiz.questions)) {
+  const handleDeleteQuestion = async (index) => {
+    try {
+      const questionId = currentQuiz.questions[index]._id;
+      const updatedQuiz = { ...currentQuiz };
       const updatedQuestions = [...updatedQuiz.questions];
       updatedQuestions.splice(index, 1);
       updatedQuiz.questions = updatedQuestions;
+      await axios.delete(`http://localhost:3000/api/questions/${questionId}`, { data: { quizId: currentQuiz._id } });
       updateLocalStorage(updatedQuiz);
+    } catch (error) {
+      console.error('Error deleting question:', error);
     }
   };
   
-  const handleModifyQuestion = (index) => {
-    // PATCH request at http://localhost:3000/api/questions/${question_id}
-    // send currentQuiz.question, currentQuiz.options, currentQuiz.correct_answer, currentQuiz.points as a request body
+  const handleModifyQuestion = async (index) => {
+    try {
+      const questionId = currentQuiz.questions[index]._id;
+      await axios.patch(`http://localhost:3000/api/questions/${questionId}`, {
+        question: currentQuiz.questions[index].question,
+        options: currentQuiz.questions[index].options,
+        correct_answer: currentQuiz.questions[index].correct_answer,
+        points: currentQuiz.questions[index].points,
+      });
+    } catch (error) {
+      console.error('Error updating highest_score:', error);
+    }
   };
 
-  const handleAddQuestion = () => {
-    const updatedQuiz = { ...currentQuiz };
-    const updatedQuestions = [...updatedQuiz.questions];
-    updatedQuestions.push({
-      question: '',
-      options: ['', '', '', ''],
-      correct_answer: '',
-      points: 5,
-    });
-    updatedQuiz.questions = updatedQuestions;
-    updateLocalStorage(updatedQuiz);
+  const handleAddQuestion = async () => {
+    try {
+      const quizId = currentQuiz._id;
+      const newQuestion = {
+        question: 'New Question',
+        options: ["opt1", "opt2", "opt3", "opt4"],
+        correct_answer: "correct_answer",
+        points: 5,
+      };
+      const response = await axios.post(`http://localhost:3000/api/questions/${quizId}`, newQuestion);
+      const updatedQuiz = { ...currentQuiz };
+      const updatedQuestions = [...updatedQuiz.questions];
+      updatedQuestions.push(response.data);
+      updatedQuiz.questions = updatedQuestions;
+      updateLocalStorage(updatedQuiz);
+    } catch (error) {
+      console.error('Error adding question:', error);
+    }
   };  
 
   const handleTopicNameChange = (updatedName) => {
