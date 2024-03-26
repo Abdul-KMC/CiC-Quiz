@@ -30,8 +30,14 @@ function Topics() {
   };
 
   const handleClickTopic = (id) => {
-    navigate(`/quiz/${id}`);
+    const topic = quizData[id];
+    if (topic.questions.length < 1) {
+      alert("No questions in topic");
+    } else {
+      navigate(`/quiz/${id}`);
+    }
   };
+  
 
   const handleAddTopic = async () => {
     try {
@@ -72,8 +78,10 @@ function Topics() {
           <div className="topics-content">
             {quizData.map((topic, index) => (
               <section key={index}>
-                <button className="modify" onClick={() => handleClickModify(index)}>M</button>
-                <button className="delete" onClick={() => handleClickDelete(index)}>D</button>
+                <section className="quiz-options">
+                  <button className="modify" onClick={() => handleClickModify(index)}>Mod</button>
+                  <button className="delete" onClick={() => handleClickDelete(index)}>Del</button>
+                </section>
                 <button className="topic-button" onClick={() => handleClickTopic(index)}>
                   {topic.name}
                 </button>
