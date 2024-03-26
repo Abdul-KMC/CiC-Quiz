@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setQuizData, setUserId } from './reducers/quizReducer';
-import baseurl from '../api';
+import baseurl from './api';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import UserProfile from './components/UserProfile';
