@@ -102,3 +102,12 @@
     background-color: #d1fce9;
     border-radius: 20px;
 }
+
+.topic-button {
+    height: 100px;
+    width: 160px;
+}
+
+.quiz-options {
+    display: flex;
+}
