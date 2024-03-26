@@ -1,0 +1,25 @@
+name: Production pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  cic_quiz_pipeline:
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: ./server
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Node Environment Setup
+        uses: actions/setup-node@v4
+
+      - name: Dependencies Installation
+        uses: npm i
+
+      # - name: Backend Testing
+      #   uses: npm test
