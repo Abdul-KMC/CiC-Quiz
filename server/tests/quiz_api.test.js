@@ -1,7 +1,7 @@
 const supertest = require('supertest');
 const app = require('../server');
 const request = supertest(app);
-const { connectToTestDatabase, disconnectFromTestDatabase, initializeTestData, clearTestData } = require('./test_helper');
+const { connectToTestDatabase, disconnectTestDatabase, initializeTestData, clearTestData } = require('./test_helper');
 
 beforeAll(async() => {
     await connectToTestDatabase();
@@ -56,5 +56,5 @@ describe('GET /api/questions/:questionId', () => {
 
 afterAll(async() => {
     await clearTestData();
-    await disconnectFromTestDatabase();
+    await disconnectTestDatabase();
 });
