@@ -1,71 +1,85 @@
 const mongoose = require('mongoose');
 
+let connection;
+let db;
+
 const connectToTestDatabase = async() => {
-    const uri = process.env.TEST_DATABASE_URL;
-    await mongoose.connect(uri, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true,
-    });
+    if (!connection) {
+        const uri = process.env.TEST_DATABASE_URL;
+        connection = await mongoose.connect(uri, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        db = connection.connection.db;
+    }
 };
 
-// Disconnect from the test database
 const disconnectTestDatabase = async() => {
-    await mongoose.disconnect();
+    if (connection) {
+        await mongoose.disconnect();
+        connection = null;
+    }
 };
 
-// Initialize test data
 const initializeTestData = async() => {
-    // Define initial test data
-    const usersData = [{
-            userName: 'user1',
-            email: 'user1@example.com',
-            password: 'password1',
-        },
-        {
-            userName: 'user2',
-            email: 'user2@example.com',
-            password: 'password2',
-        },
-    ];
+    await connectToTestDatabase();
 
-    const quizzesData = [{
-            name: 'Quiz 1',
-            questions: [],
-            highest_score: 0,
-        },
-        {
-            name: 'Quiz 2',
-            questions: [],
-            highest_score: 0,
-        },
-    ];
+    const users = db.collection('users');
+    const quizzes = db.collection('quizzes');
+    const questions = db.collection('questions');
 
-    const questionsData = [{
-            question: 'Question 1',
-            options: ['Option 1', 'Option 2', 'Option 3'],
-            correct_answer: 'Option 1',
-            points: 10,
-        },
-        {
-            question: 'Question 2',
-            options: ['Option 1', 'Option 2', 'Option 3'],
-            correct_answer: 'Option 2',
-            points: 10,
-        },
-    ];
+    const user1 = {
+        userName: 'user1',
+        email: 'user1@example.com',
+        password: 'password1',
+    };
+    const user2 = {
+        userName: 'user2',
+        email: 'user2@example.com',
+        password: 'password2',
+    }
+    await users.insertOne(user1);
+    await users.insertOne(user2);
 
-    // Create test data in the database
-    await User.create(usersData);
-    await Quiz.create(quizzesData);
-    await Question.create(questionsData);
+    const quiz1 = {
+        name: 'Quiz 1',
+        questions: [],
+        highest_score: 0,
+    };
+    const quiz2 = {
+        name: 'Quiz 2',
+        questions: [],
+        highest_score: 0,
+    };
+    await quizzes.insertOne(quiz1);
+    await quizzes.insertOne(quiz2);
+
+    const question1 = {
+        question: 'Question 1',
+        options: ['Option 1', 'Option 2', 'Option 3'],
+        correct_answer: 'Option 1',
+        points: 10,
+    };
+    const question2 = {
+        question: 'Question 2',
+        options: ['Option 1', 'Option 2', 'Option 3'],
+        correct_answer: 'Option 1',
+        points: 10,
+    };
+    await questions.insertOne(question1);
+    await questions.insertOne(question2);
 };
 
-// Clear test data
 const clearTestData = async() => {
-    await User.deleteMany();
-    await Quiz.deleteMany();
-    await Question.deleteMany();
+    await connectToTestDatabase();
+
+    const users = db.collection('users');
+    const quizzes = db.collection('quizzes');
+    const questions = db.collection('questions');
+
+    await users.deleteMany();
+    await quizzes.deleteMany();
+    await questions.deleteMany();
 };
 
 module.exports = {

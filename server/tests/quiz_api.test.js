@@ -10,7 +10,7 @@ beforeAll(async() => {
 
 describe('GET /api/user/:userId', () => {
     test('should return a user by ID', async() => {
-        const users = await User.find();
+        const users = await users.find();
         const userId = users[0]._id;
 
         const response = await request.get(`/api/user/${userId}`);
@@ -28,7 +28,7 @@ describe('GET /api/quizzes', () => {
 
 describe('GET /api/quiz/:id', () => {
     test('should return a quiz by ID', async() => {
-        const quizzes = await Quiz.find();
+        const quizzes = await quizzes.find();
         const quizId = quizzes[0]._id;
 
         const response = await request.get(`/api/quiz/${quizId}`);
@@ -46,7 +46,7 @@ describe('GET /api/questions', () => {
 
 describe('GET /api/questions/:questionId', () => {
     test('should return a question by ID', async() => {
-        const questions = await Question.find();
+        const questions = await questions.find();
         const questionId = questions[0]._id;
 
         const response = await request.get(`/api/questions/${questionId}`);
