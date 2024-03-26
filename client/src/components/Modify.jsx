@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateQuiz } from '../reducers/quizReducer';
+import baseurl from '../api';
 import Header from './Header';
 import Footer from './Footer';
 import '../style/Quiz.css';
@@ -64,7 +65,7 @@ function Modify() {
       const updatedQuestions = [...updatedQuiz.questions];
       updatedQuestions.splice(index, 1);
       updatedQuiz.questions = updatedQuestions;
-      await axios.delete(`http://localhost:3000/api/questions/${questionId}`, { data: { quizId: currentQuiz._id } });
+      await axios.delete(`${baseurl}/api/questions/${questionId}`, { data: { quizId: currentQuiz._id } });
       updateLocalStorage(updatedQuiz);
     } catch (error) {
       console.error('Error deleting question:', error);
@@ -74,7 +75,7 @@ function Modify() {
   const handleModifyQuestion = async (index) => {
     try {
       const questionId = currentQuiz.questions[index]._id;
-      await axios.patch(`http://localhost:3000/api/questions/${questionId}`, {
+      await axios.patch(`${baseurl}/api/questions/${questionId}`, {
         question: currentQuiz.questions[index].question,
         options: currentQuiz.questions[index].options,
         correct_answer: currentQuiz.questions[index].correct_answer,
@@ -94,7 +95,7 @@ function Modify() {
         correct_answer: "correct_answer",
         points: 5,
       };
-      const response = await axios.post(`http://localhost:3000/api/questions/${quizId}`, newQuestion);
+      const response = await axios.post(`${baseurl}/api/questions/${quizId}`, newQuestion);
       const updatedQuiz = { ...currentQuiz };
       const updatedQuestions = [...updatedQuiz.questions];
       updatedQuestions.push(response.data);

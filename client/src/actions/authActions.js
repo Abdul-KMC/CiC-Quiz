@@ -1,9 +1,10 @@
 import axios from 'axios';
+import baseurl from '../api';
 import { setJWTToken, clearJWTToken } from '../reducers/quizReducer';
 
 export const registerUser = (userData) => async(dispatch) => {
     try {
-        const res = await axios.post('http://localhost:3000/api/user/register', userData);
+        const res = await axios.post(`${baseurl}/api/user/register`, userData);
         alert(`user sucessufully created`);
     } catch (err) {
         if (err.response) {
@@ -16,7 +17,7 @@ export const registerUser = (userData) => async(dispatch) => {
 
 export const loginUser = (userData) => async(dispatch) => {
     try {
-        const res = await axios.post('http://localhost:3000/api/user/login', userData);
+        const res = await axios.post(`${baseurl}/api/user/login`, userData);
         const token = res.data;
         dispatch(setJWTToken(token));
         localStorage.setItem('jwtToken', token);

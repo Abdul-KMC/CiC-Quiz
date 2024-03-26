@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setQuizData, setUserId } from './reducers/quizReducer';
+import baseurl from '../api';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import UserProfile from './components/UserProfile';
@@ -22,22 +23,22 @@ const App = () => {
             const token = localStorage.getItem('jwtToken');
             if (token) {
                 // Decode token to get user data
-                const decodedResponse = await axios.post('http://localhost:3000/api/decode', { token });
+                const decodedResponse = await axios.post(`${baseurl}/api/decode`, { token });
                 const userId = decodedResponse.data._id;
                 dispatch(setUserId(userId));
 
                 // Fetch user's quizzes
-                const userResponse = await axios.get(`http://localhost:3000/api/user/getUser/${userId}`);
+                const userResponse = await axios.get(`${baseurl}/api/user/getUser/${userId}`);
                 const quizzesIds = userResponse.data.quizzes;
 
                 const quizzesData = [];
                 for (const quizId of quizzesIds) {
-                    const quizResponse = await axios.get(`http://localhost:3000/api/quiz/${quizId}`);
+                    const quizResponse = await axios.get(`${baseurl}/api/quiz/${quizId}`);
                     const quiz = quizResponse.data;
 
                     const questionsData = [];
                     for (const questionId of quiz.questions) {
-                        const questionResponse = await axios.get(`http://localhost:3000/api/questions/${questionId}`);
+                        const questionResponse = await axios.get(`${baseurl}/api/questions/${questionId}`);
                         questionsData.push(questionResponse.data);
                     }
 

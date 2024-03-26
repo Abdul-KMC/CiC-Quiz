@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateQuiz } from '../reducers/quizReducer';
+import baseurl from '../api';
 import Header from './Header';
 import Footer from './Footer';
 import '../style/Quiz.css';
@@ -78,7 +79,7 @@ function Quiz() {
 
   const updateBackend = async (quiz, score) => {
     try {
-      await axios.patch(`http://localhost:3000/api/quiz/${quiz._id}`, {
+      await axios.patch(`${baseurl}/api/quiz/${quiz._id}`, {
         name: quiz.name,
         highest_score: score
       });

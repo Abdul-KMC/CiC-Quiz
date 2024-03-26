@@ -3,6 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateTopic, deleteQuiz } from '../reducers/quizReducer';
+import baseurl from '../api';
 import Header from './Header';
 import Footer from './Footer';
 import '../style/Dashboard.css';
@@ -23,7 +24,7 @@ function Topics() {
       const quizId = quizData[id]._id;
 
       dispatch(deleteQuiz(id));
-      await axios.delete(`http://localhost:3000/api/quiz/${quizId}`, { data: { userId: user_id } });
+      await axios.delete(`${baseurl}/api/quiz/${quizId}`, { data: { userId: user_id } });
     } catch (error) {
       console.error('Error deleting quiz:', error);
     }
@@ -48,7 +49,7 @@ function Topics() {
       };
 
       // Send POST request to add the new topic
-      const response = await axios.post(`http://localhost:3000/api/quiz/${user_id}`, newTopic);
+      const response = await axios.post(`${baseurl}/api/quiz/${user_id}`, newTopic);
       const addedTopic = response.data;
 
       const updatedQuizData = [...quizData, addedTopic];

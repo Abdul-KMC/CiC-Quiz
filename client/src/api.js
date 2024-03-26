@@ -1,0 +1,1 @@
+export default baseurl = "https://cic-quiz-backend-2zb9odyh5-abdulkmcs-projects.vercel.app/"

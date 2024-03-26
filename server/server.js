@@ -21,7 +21,16 @@ database.once('connected', () => {
     console.log('Database Connected');
 })
 const app = express();
-app.use(cors());
+
+const corsOptions = {
+    origin: ["http://localhost:3000/", "https://cic-quiz.vercel.app/"],
+    methods: ["GET", "PUT", "POST", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+    optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions))
 
 app.use(express.json());
 app.use(middleware.morganMiddleware);
