@@ -25,6 +25,9 @@ app.use(cors());
 
 app.use(express.json());
 app.use(middleware.morganMiddleware);
+app.get('/', (req, res) => {
+    res.send("hello")
+})
 app.use('/api', routes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/user', userRoute);
