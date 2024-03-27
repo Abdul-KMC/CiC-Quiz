@@ -43,7 +43,7 @@ Start the application:
 bash
 Copy code
 npm start
-Open your browser and visit http://localhost:5173 to access CiC-Quiz.
+Open your browser and visit [http://localhost:5173 to access CiC-Quiz.](https://cic-quiz.onrender.com)
 
 Project Structure
 client/: React front-end application.
