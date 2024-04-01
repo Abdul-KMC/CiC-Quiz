@@ -28,6 +28,8 @@ const App = () => {
 
                 // Fetch user's quizzes
                 const userResponse = await axios.get(`http://localhost:3000/api/user/getUser/${userId}`);
+                console.log("This is user response" + userResponse.data)
+                console.log("Type of quizzes array is: " + typeof userResponse.data.quizzes)
                 const quizzesIds = userResponse.data.quizzes;
 
                 const quizzesData = [];
