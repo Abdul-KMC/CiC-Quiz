@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const mongoString = process.env.DATABASE_URL;
+const mongoString = process.env.NODE_ENV === "test" ? process.env.TEST_DATABASE_URL : process.env.DATABASE_URL
 const routes = require('./routers/routes');
 const questionRoutes = require('./routers/questionRoutes');
 const userRoute = require('./routers/userRoute');
